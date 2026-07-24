@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUMBANG PRESO EXTREME — 前端需求視覺稿</title>
+<style>
+:root{
+  --bg:#0b0e14;--panel:#141a26;--panel2:#1b2334;--line:#28324a;
+  --text:#dde3ee;--muted:#8b94a9;
+  --gold:#f5c451;--gold2:#d99a1f;--green:#43d97b;--blue:#5aa2f7;--red:#f0625d;--purple:#b07af5;--orange:#fb923c;
+  --jungle:#123524;--jungle2:#1d4d33;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"PingFang TC","PingFang SC","Microsoft JhengHei",-apple-system,sans-serif;font-size:14px;line-height:1.6}
+
+/* ================= HERO ================= */
+.hero{position:relative;overflow:hidden;text-align:center;padding:70px 20px 56px;border-bottom:1px solid var(--line);
+  background:radial-gradient(ellipse 55% 90% at 15% 0%,rgba(245,196,81,.16),transparent),
+             radial-gradient(ellipse 45% 80% at 88% 10%,rgba(67,217,123,.10),transparent),
+             linear-gradient(180deg,#10161f,var(--bg));}
+.hero .badge-row{display:flex;justify-content:center;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.hero .chip{border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:2px 14px;font-size:11.5px;letter-spacing:2px}
+.hero h1{font-size:clamp(30px,5.4vw,52px);letter-spacing:4px;font-weight:900;
+  background:linear-gradient(90deg,#f5c451 10%,#fff3c4 45%,#f5c451 90%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 24px rgba(245,196,81,.25));margin-bottom:8px}
+.hero .sub{color:var(--muted);font-size:15px;letter-spacing:1px}
+.hero .cans{display:flex;justify-content:center;gap:10px;margin-top:30px}
+.hero .can{width:44px;height:56px;border-radius:9px;background:linear-gradient(160deg,#2a3143,#161c2a);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted);font-size:13px}
+.hero .can.hot{background:linear-gradient(160deg,#5a4413,#2c2109);border-color:var(--gold);color:var(--gold);box-shadow:0 0 18px rgba(245,196,81,.35)}
+
+/* ================= SECTION SHELL ================= */
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px 120px}
+.sec{margin-top:74px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+.sec-head .no{font-size:13px;font-weight:800;color:var(--gold);letter-spacing:2px}
+.sec-head h2{font-size:24px;color:#fff}
+.sec-desc{color:var(--muted);margin-bottom:22px;font-size:13.5px}
+.warnline{display:inline-block;background:rgba(240,98,93,.1);border:1px solid rgba(240,98,93,.4);color:#ff9d99;border-radius:8px;padding:4px 12px;font-size:12.5px;margin:4px 0}
+.okline{display:inline-block;background:rgba(67,217,123,.1);border:1px solid rgba(67,217,123,.4);color:#7ce8a5;border-radius:8px;padding:4px 12px;font-size:12.5px;margin:4px 0}
+
+/* ================= DEVICE FRAME ================= */
+.stage{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.frame{background:#05070b;border:1px solid #2c3853;border-radius:22px;padding:10px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.frame .screen{border-radius:14px;overflow:hidden;position:relative}
+.frame.landscape{flex:1 1 620px;max-width:760px}
+.frame.landscape .screen{aspect-ratio:16/8.4;min-height:340px}
+.frame-label{color:var(--muted);text-align:center;font-size:12.5px;margin-top:10px;letter-spacing:1px}
+.spec{flex:1 1 260px;min-width:250px}
+.spec .sp-item{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px}
+.spec .sp-item b{color:#fff}
+.spec .sp-item .k{color:var(--gold);font-weight:700;margin-right:6px}
+
+/* ================= LOADING SCREEN ================= */
+.loading-screen{background:linear-gradient(180deg,#0d2b1c,#071a10 70%,#04120a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;height:100%;position:relative}
+.loading-screen::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 20% 80%,rgba(67,217,123,.12),transparent 40%),
+  radial-gradient(circle at 80% 75%,rgba(245,196,81,.10),transparent 45%)}
+.stone-banner{background:linear-gradient(180deg,#2f5c3f,#1d4d33);border:2px solid var(--gold2);border-radius:12px;padding:8px 34px;
+  font-size:21px;font-weight:900;letter-spacing:3px;color:var(--gold);box-shadow:0 6px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15)}
+.pyramid{font-size:44px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.6))}
+.load-text{color:#bfe8cd;font-size:13px;letter-spacing:1px}
+.pbar{width:62%;height:14px;border-radius:999px;background:#0a2416;border:1px solid #2f5c3f;position:relative;overflow:visible}
+.pbar .fill{width:75%;height:100%;border-radius:999px;background:linear-gradient(90deg,#2f86e0,#6fd0ff);box-shadow:0 0 14px rgba(111,208,255,.5)}
+.pbar .jag{position:absolute;top:-13px;left:calc(75% - 14px);font-size:20px}
+.load-sub{color:#7fae91;font-size:11.5px}
+
+/* ================= MAIN GAME SCREEN ================= */
+.game-screen{background:linear-gradient(180deg,#0e2418,#0a1a11);height:100%;display:flex;flex-direction:column;position:relative}
+.g-top{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:11px}
+.avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#b07af5,#6d4fd0);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.user-pill{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:999px;padding:2px 10px 2px 3px}
+.balance-pill{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.4);border:1px solid var(--gold2);border-radius:999px;padding:2px 12px;color:var(--gold);font-weight:700}
+.marquee{flex:1;background:rgba(38,80,150,.35);border:1px solid #3a5f9e;border-radius:999px;padding:2px 12px;color:#9ec4ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.viewers{display:flex;align-items:center;gap:4px;color:var(--muted)}
+.g-mid{flex:1;display:flex;min-height:0}
+.chat-col{width:31%;display:flex;flex-direction:column;padding:4px 6px;font-size:10.5px;min-width:0}
+.pin-msg{background:rgba(240,98,164,.18);border:1px solid rgba(240,98,164,.5);border-radius:7px;padding:2px 8px;color:#ff9ecb;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-line{color:#c6cede;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-line b{color:#7fb3ff;font-weight:600}
+.chat-input{margin-top:auto;display:flex;gap:5px;align-items:center}
+.chat-input .in{flex:1;background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chat-input .send{background:var(--blue);color:#fff;border-radius:999px;padding:3px 12px;font-weight:700}
+.live-col{flex:1;position:relative;display:flex;align-items:center;justify-content:center}
+.host-stage{width:88%;height:86%;border-radius:12px;background:
+  radial-gradient(circle at 50% 30%,rgba(245,196,81,.15),transparent 55%),
+  linear-gradient(180deg,#173a26,#0d2317);border:1px solid #2f5c3f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+.host-stage .live-tag{position:absolute;top:8px;left:10px;background:var(--red);color:#fff;font-size:10px;font-weight:800;border-radius:5px;padding:1px 8px;letter-spacing:1px}
+.host-stage .cam{position:absolute;top:8px;right:10px;font-size:14px}
+.host{font-size:46px}
+.machine{position:absolute;bottom:10px;right:14px;font-size:30px}
+.chestwall{position:absolute;bottom:10px;left:14px;display:grid;grid-template-columns:repeat(5,14px);gap:3px}
+.chestwall i{width:14px;height:12px;border-radius:3px;background:linear-gradient(160deg,#7a5c17,#4a370c);border:1px solid var(--gold2);font-style:normal}
+.jp-col{width:22%;display:flex;flex-direction:column;gap:7px;padding:8px;font-size:11px}
+.jp{border-radius:999px;padding:4px 10px;text-align:center;font-weight:800;letter-spacing:.5px;border:1px solid}
+.jp.grand{background:rgba(90,162,247,.12);border-color:var(--blue);color:#9ec9ff;box-shadow:0 0 12px rgba(90,162,247,.25)}
+.jp.major{background:rgba(176,122,245,.12);border-color:var(--purple);color:#d3b3ff}
+.jp.minor{background:rgba(67,217,123,.12);border-color:var(--green);color:#8ceab0}
+.jp small{display:block;font-size:9px;font-weight:600;opacity:.75;letter-spacing:1.5px}
+.road{margin-top:auto;background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:9px;padding:6px 8px}
+.road .rt{font-size:9.5px;color:#cfd7e6;letter-spacing:.5px;margin-bottom:4px;white-space:nowrap}
+.road .rb{height:8px;border-radius:999px;background:#0c1520;overflow:hidden}
+.road .rb i{display:block;height:100%;width:62%;background:linear-gradient(90deg,#2f86e0,#6fd0ff)}
+.mini-tab{position:absolute;left:0;top:38%;background:linear-gradient(180deg,#f5c451,#d99a1f);color:#2b1f05;writing-mode:vertical-lr;letter-spacing:3px;font-weight:900;font-size:10px;border-radius:0 7px 7px 0;padding:8px 3px}
+
+/* betting bar */
+.bet-bar{background:linear-gradient(180deg,#101b2a,#0b1420);border-top:1px solid var(--line);padding:7px 10px;display:flex;align-items:center;gap:8px;font-size:11px}
+.numgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;flex:1}
+.numgrid .n{aspect-ratio:1;border-radius:5px;background:#182337;border:1px solid #2b3a57;display:flex;align-items:center;justify-content:center;font-size:9px;color:#aeb9cf;font-weight:700}
+.numgrid .n.sel{background:linear-gradient(160deg,#f5c451,#d9941a);border-color:#ffe9a8;color:#2b1f05;box-shadow:0 0 10px rgba(245,196,81,.5)}
+.bet-side{display:flex;flex-direction:column;gap:5px;align-items:center}
+.chips{display:flex;gap:4px}
+.chip-c{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;border:2px dashed rgba(255,255,255,.6)}
+.chip-c.c5{background:#5e6a80}.chip-c.c20{background:#2e9e5b}.chip-c.c100{background:#3d78d8}.chip-c.c500{background:#9c4fd8}.chip-c.c1k{background:#d84f4f}
+.chip-c.sel-chip{outline:2px solid var(--gold);outline-offset:2px}
+.chip-c.custom{background:#1d2a40;border-style:solid;border-color:var(--blue);color:var(--blue)}
+.bet-actions{display:flex;gap:5px;align-items:center}
+.btn{border-radius:7px;padding:4px 12px;font-weight:800;font-size:10.5px;letter-spacing:.5px}
+.btn.reset{background:#232d41;color:#96a1b6;border:1px solid var(--line)}
+.btn.max{background:#17406e;color:#9ec9ff;border:1px solid var(--blue)}
+.btn.confirm{background:linear-gradient(160deg,#f5c451,#d9941a);color:#2b1f05;box-shadow:0 3px 12px rgba(245,196,81,.35)}
+.btn.confirm.disabled{background:#2a3143;color:#6b7488;box-shadow:none}
+.ring{width:34px;height:34px;border-radius:50%;background:conic-gradient(var(--gold) 0 70%,#243048 70% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ring i{width:26px;height:26px;border-radius:50%;background:#0b1420;display:flex;align-items:center;justify-content:center;font-size:10px;font-style:normal;font-weight:800;color:var(--gold)}
+.freebet{display:flex;align-items:center;gap:5px;color:#96a1b6;font-size:10px}
+.toggle{width:26px;height:14px;border-radius:999px;background:#2a3548;position:relative}
+.toggle i{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#78849b}
+.toggle.on{background:#2e9e5b}.toggle.on i{left:auto;right:2px;background:#fff}
+
+/* ================= GOLDEN RING ================= */
+.golden-overlay{position:absolute;inset:0;border:4px solid var(--gold);border-radius:14px;box-shadow:inset 0 0 60px rgba(245,196,81,.35), 0 0 30px rgba(245,196,81,.4);display:flex;align-items:center;justify-content:center;background:rgba(10,14,8,.35)}
+.golden-card{text-align:center;background:rgba(15,18,10,.9);border:1px solid var(--gold);border-radius:16px;padding:20px 38px;box-shadow:0 10px 50px rgba(0,0,0,.6)}
+.golden-card .gc-t{font-size:24px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#f5c451,#fff3c4,#f5c451);-webkit-background-clip:text;background-clip:text;color:transparent}
+.golden-card .gc-s{color:#ffe9a8;font-size:13px;margin-top:4px}
+.balls{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.ball{width:38px;height:38px;border-radius:8px;background:linear-gradient(160deg,#ff9f2e,#e07b00);color:#241300;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(224,123,0,.4)}
+.ball.ghost{background:#1c2434;color:#4d5a74;border:1px dashed #3a4a68;box-shadow:none}
+
+/* ================= DRAW / MULTIPLIER WINDOW ================= */
+.draw-screen{background:linear-gradient(180deg,#12291b,#0a1a11);height:100%;display:flex;align-items:center;justify-content:center;gap:26px;position:relative}
+.mult-window{background:rgba(8,12,8,.85);border:2px solid var(--gold2);border-radius:14px;padding:14px 20px;min-width:210px}
+.mult-window .mw-t{font-size:12px;color:var(--gold);letter-spacing:2px;font-weight:800;text-align:center;margin-bottom:10px}
+.mw-row{display:flex;justify-content:space-between;gap:20px;font-size:13px;padding:4px 2px;border-bottom:1px dashed #2a3a2a}
+.mw-row:last-of-type{border-bottom:none}
+.mw-row .no{color:#cfe6d5}
+.mw-row .x{color:var(--gold);font-weight:800}
+.mw-total{margin-top:8px;text-align:center;background:rgba(245,196,81,.12);border:1px solid var(--gold2);border-radius:8px;padding:4px;font-weight:900;color:var(--gold)}
+.can-flip{display:grid;grid-template-columns:repeat(6,34px);gap:5px}
+.can-flip .c{aspect-ratio:1;border-radius:7px;background:#16231a;border:1px solid #2c4232;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#6f8a77;font-weight:700}
+.can-flip .c.open{background:linear-gradient(160deg,#5a4413,#2c2109);border-color:var(--gold);color:var(--gold);font-size:10.5px}
+
+/* ================= WIN MODAL ================= */
+.modal-demo{background:radial-gradient(circle at 50% 20%,rgba(245,196,81,.12),transparent 55%),linear-gradient(180deg,#101a28,#0a1220);height:100%;display:flex;align-items:center;justify-content:center;position:relative}
+.win-pop{width:min(64%,300px);background:linear-gradient(180deg,#1d2a40,#131c2d);border:2px solid var(--gold);border-radius:20px;text-align:center;padding:26px 20px 20px;position:relative;box-shadow:0 0 60px rgba(245,196,81,.25)}
+.win-pop .crown{font-size:34px;position:absolute;top:-22px;left:50%;transform:translateX(-50%)}
+.win-pop .yw{font-size:30px;font-weight:900;letter-spacing:3px;background:linear-gradient(90deg,#43d97b,#f5c451,#f0625d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.win-pop .ribbon{margin:14px auto 6px;background:linear-gradient(180deg,#e0453f,#b32620);border-radius:10px;padding:8px 18px;color:#ffe9a8;font-size:23px;font-weight:900;width:fit-content;box-shadow:0 6px 18px rgba(179,38,32,.45)}
+.win-pop .wp-s{color:var(--muted);font-size:11.5px}
+.win-pop .wp-close{position:absolute;top:8px;right:12px;color:#5d6982;font-size:15px}
+
+/* ================= REWARD GAME ================= */
+.reward-screen{background:linear-gradient(180deg,#241a10,#160f08);height:100%;display:flex;gap:14px;padding:14px;position:relative}
+.board-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.reward-title{font-size:13px;font-weight:900;letter-spacing:2px;color:var(--gold)}
+.reward-title .zap{color:#6fd0ff}
+.board{display:grid;grid-template-columns:repeat(8,30px);gap:4px}
+.cell{aspect-ratio:1;border-radius:6px;background:#241c11;border:1px solid #45351c;display:flex;align-items:center;justify-content:center;font-size:12px}
+.cell.c12{font-size:8px;color:#c9a86a;font-weight:700}
+.cell.snake{background:#153a26;border-color:#43d97b;box-shadow:0 0 10px rgba(67,217,123,.4)}
+.cell.path{background:#132b1d;border-color:#2b6a45}
+.side-panel{width:37%;display:flex;flex-direction:column;gap:8px;font-size:11px}
+.sp-card{background:rgba(0,0,0,.4);border:1px solid #45351c;border-radius:10px;padding:8px 10px}
+.sp-card .t{color:var(--gold);font-weight:800;font-size:10.5px;letter-spacing:1px;margin-bottom:6px}
+.odd-row{display:flex;justify-content:space-between;padding:2.5px 0;border-bottom:1px dashed #3a2d17;color:#d9cdb7}
+.odd-row:last-child{border-bottom:none}
+.odd-row b{color:var(--gold)}
+.cur-mult{background:linear-gradient(180deg,#2f5c3f,#1d4d33);border:1.5px solid var(--gold2);border-radius:10px;text-align:center;padding:6px;font-weight:900;color:var(--gold);font-size:14px}
+.rw-bet{background:rgba(0,0,0,.55);border:1px solid var(--gold2);border-radius:10px;text-align:center;padding:5px;color:#ffe9a8;font-size:10.5px}
+.rw-bet b{font-size:13px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:10.5px;color:#c9a86a}
+.legend span{color:#c9a86a}
+
+/* ================= HISTORY DRAWER ================= */
+.hist-screen{background:linear-gradient(180deg,#0e2418,#0a1a11);height:100%;display:flex;position:relative}
+.hist-dim{flex:1;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#40526f;font-size:12px}
+.drawer{width:58%;background:#f4f6fa;color:#2b3346;display:flex;flex-direction:column;font-size:11px}
+.dr-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #e2e7f0;font-weight:800;font-size:13px;color:#1d2536}
+.dr-head .x{color:#9aa4b8}
+.dr-filters{display:flex;gap:8px;padding:8px 12px}
+.dr-filters .f{background:#fff;border:1px solid #dbe2ee;border-radius:8px;padding:3px 12px;color:#4c5870;display:flex;gap:6px;align-items:center}
+.rec-card{background:#fff;border:1px solid #e2e7f0;border-radius:12px;margin:4px 12px;padding:9px 12px}
+.rec-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.tag-cg{background:#e8f1ff;color:#2f6fd8;border-radius:6px;padding:1px 8px;font-weight:700;font-size:10px}
+.tag-settled{border:1px solid #35b56b;color:#2b9e5c;border-radius:6px;padding:0 7px;font-size:10px;font-weight:700}
+.dots{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+.dot.y{background:#f2c531}.dot.w{background:#fff;border:1px solid #ccc}
+.rec-mid{display:flex;justify-content:space-between;font-weight:800;font-size:13px;color:#1d2536}
+.rec-mid .win{color:#2b9e5c}
+.rec-time{color:#9aa4b8;font-size:10px;margin-top:4px}
+.numballs{display:flex;gap:4px;margin-top:6px}
+.nb{width:22px;height:22px;border-radius:5px;background:linear-gradient(160deg,#ff9f2e,#e07b00);color:#241300;font-weight:900;font-size:10px;display:flex;align-items:center;justify-content:center}
+.det-row{display:flex;justify-content:space-between;padding:3.5px 0;border-bottom:1px dashed #e8edf5;color:#4c5870}
+.det-row:last-child{border-bottom:none}
+.det-row b{color:#1d2536}
+.det-row .link{color:#2f6fd8}
+.payout-line{display:flex;justify-content:space-between;align-items:center;background:#effaf3;border:1px solid #bfe8cf;border-radius:9px;padding:6px 10px;margin-top:6px}
+.payout-line .pt{color:#2b9e5c;font-weight:800;display:flex;align-items:center;gap:5px}
+.payout-line .pv{color:#2b9e5c;font-weight:900;font-size:13px}
+
+/* ================= FLOW / STATE MACHINE ================= */
+.flowband{display:flex;gap:0;flex-wrap:wrap;align-items:stretch;justify-content:center;margin-top:8px}
+.fnode{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:center;min-width:118px;margin:6px 0}
+.fnode .fp{font-family:"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--purple);background:rgba(176,122,245,.1);border:1px solid rgba(176,122,245,.35);border-radius:5px;padding:0 6px;display:inline-block;margin-bottom:5px}
+.fnode .fn{font-size:12.5px;font-weight:700;color:#fff}
+.fnode .fd{font-size:10.5px;color:var(--muted);margin-top:2px}
+.fnode.hot{border-color:var(--gold);box-shadow:0 0 14px rgba(245,196,81,.15)}
+.farrow{display:flex;align-items:center;color:var(--gold);font-size:16px;padding:0 7px}
+.subflow{border:1px dashed #6a4a12;border-radius:16px;padding:10px 14px;margin-top:14px;display:flex;flex-wrap:wrap;justify-content:center;position:relative}
+.subflow .sf-tag{position:absolute;top:-10px;left:18px;background:var(--bg);padding:0 8px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px}
+
+/* ================= LED STRIP ================= */
+.led-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.led-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.led-card .lc-vis{height:76px;display:flex;align-items:center;justify-content:center;font-size:26px;letter-spacing:2px}
+.led-card .lc-t{padding:7px 10px;font-size:11.5px;color:#cfd7e6;border-top:1px solid var(--line)}
+.led-card .lc-t small{display:block;color:var(--muted);font-size:10px}
+.lv1{background:linear-gradient(160deg,#1c2434,#12192a)}
+.lv2{background:linear-gradient(160deg,#25200e,#161408);color:var(--gold);font-weight:900;font-size:15px!important;gap:8px}
+.lv3{background:conic-gradient(from 0deg,#1c2434,#2c3a57,#1c2434,#2c3a57,#1c2434)}
+.lv4{background:linear-gradient(160deg,#142a1c,#0c1c12)}
+.lv5{background:linear-gradient(160deg,#3a2c0e,#241c08);color:#ffe9a8;font-weight:900;font-size:13px!important}
+.lv6{background:linear-gradient(160deg,#3a0e0e,#240808);color:#ff9d99;font-weight:900;font-size:13px!important}
+
+/* ================= CONTROL PANEL (场控) ================= */
+.ctrl-screen{background:#f2f4f8;color:#2b3346;height:100%;display:flex;flex-direction:column;font-size:11px}
+.ctrl-top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border-bottom:1px solid #e2e7f0;flex-wrap:wrap}
+.ctrl-top .cfield{color:#4c5870}
+.ctrl-top .cfield b{color:#1d2536}
+.cbtn{border-radius:7px;padding:3px 12px;font-weight:700;font-size:10.5px}
+.cbtn.start{background:#2f6fd8;color:#fff}
+.cbtn.open{background:#e6e9f0;color:#9aa4b8}
+.cbtn.close{background:#fff;border:1px solid #dbe2ee;color:#4c5870}
+.cbtn.maintain{background:#fff;border:1px solid #dbe2ee;color:#4c5870}
+.gstate{color:#d9941a;font-weight:800}
+.ctrl-main{flex:1;display:flex;gap:10px;padding:10px 12px}
+.ctrl-chat{width:30%;background:#fff;border:1px solid #e2e7f0;border-radius:10px;padding:8px;overflow:hidden}
+.ctrl-chat .cc-t{font-weight:800;color:#1d2536;margin-bottom:5px;font-size:10.5px}
+.cc-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#4c5870;margin-bottom:2px}
+.cc-line b{color:#2f6fd8;font-weight:700}
+.ctrl-num{flex:1;background:#fff;border:1px solid #e2e7f0;border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:8px}
+.slots{display:flex;gap:6px;justify-content:center}
+.slot{width:30px;height:34px;border-radius:7px;background:#1d2536;color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:13px}
+.slot.empty{background:#e6e9f0;color:#9aa4b8}
+.ctrl-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;flex:1}
+.ctrl-grid .cg{border-radius:6px;background:#232d41;color:#cfd7e6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;min-height:20px}
+.ctrl-grid .cg.hit{background:#d9941a;color:#241300}
+.ctrl-actions{display:flex;gap:6px;justify-content:center}
+.cbtn.clear{background:#e0453f;color:#fff}
+.cbtn.rgame{background:#fff;border:1px dashed #c3cad8;color:#9aa4b8}
+.cbtn.submit{background:#e6e9f0;color:#4c5870}
+.ctrl-rank{width:24%;background:#fff;border:1px solid #e2e7f0;border-radius:10px;padding:8px}
+.ctrl-rank .cc-t{font-weight:800;color:#1d2536;font-size:10.5px;margin-bottom:5px}
+.rank-h{display:flex;justify-content:space-between;color:#9aa4b8;font-size:9.5px;border-bottom:1px solid #eef1f6;padding-bottom:3px;margin-bottom:3px}
+
+/* ================= ISSUES ================= */
+.issues{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.issue{background:var(--panel);border:1px solid rgba(240,98,93,.3);border-left:4px solid var(--red);border-radius:12px;padding:12px 16px;font-size:13px}
+.issue .in{color:var(--red);font-weight:800;font-size:11px;letter-spacing:1px;margin-bottom:4px}
+.issue b{color:#fff}
+
+/* ================= TOC dots nav ================= */
+.dotnav{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:50}
+.dotnav a{width:9px;height:9px;border-radius:50%;background:#33405c;display:block;transition:.2s}
+.dotnav a:hover{background:var(--gold);transform:scale(1.4)}
+@media(max-width:820px){.dotnav{display:none}.frame.landscape .screen{min-height:300px}}
+
+footer{border-top:1px solid var(--line);margin-top:90px;padding:28px 16px 44px;text-align:center;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+
+<nav class="dotnav">
+  <a href="#loading" title="載入頁"></a>
+  <a href="#main" title="主畫面"></a>
+  <a href="#golden" title="黃金圈"></a>
+  <a href="#draw" title="開獎"></a>
+  <a href="#win" title="結算彈窗"></a>
+  <a href="#reward" title="Reward Game"></a>
+  <a href="#history" title="歷史紀錄"></a>
+  <a href="#led" title="LED"></a>
+  <a href="#ctrl" title="場控"></a>
+  <a href="#flow" title="狀態機"></a>
+  <a href="#issues" title="待釐清"></a>
+</nav>
+
+<div class="hero">
+  <div class="badge-row"><span class="chip">前端需求 · UI 視覺稿</span><span class="chip">真人直播演播廳遊戲</span></div>
+  <h1>TUMBANG PRESO EXTREME</h1>
+  <div class="sub">菲律賓踢罐子 × 瑪雅叢林 · 猜寶箱 + 蛇行寶箱 + 蛇行競猜 · 整理自 Axure 原型（2026-05-28）</div>
+  <div class="cans">
+    <div class="can">07</div><div class="can hot">2000x</div><div class="can">18</div><div class="can hot">10000x</div><div class="can">32</div><div class="can hot">5000x</div><div class="can">24</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ LOADING ============ -->
+<section class="sec" id="loading">
+  <div class="sec-head"><span class="no">SCREEN 01</span><h2>載入頁</h2></div>
+  <div class="sec-desc">瑪雅石雕邊框 + 標題橫幅 + 藍色能量進度條（美洲豹指示物）。<span class="warnline">載入頁名為「MAYAN JUNGLE QUEST」，與 icon「TUMBANG PRESO」不一致，定名待確認</span></div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="loading-screen">
+        <div class="pyramid">🛕</div>
+        <div class="stone-banner">MAYAN JUNGLE QUEST</div>
+        <div class="load-text">遊戲正在加載中...</div>
+        <div class="pbar"><div class="fill"></div><div class="jag">🐆</div></div>
+        <div class="load-sub">正在加載: 叢林區域資源... (75%)</div>
+      </div>
+    </div><div class="frame-label">橫版 · H5 / App WebView</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">進度指示</span>美洲豹圖案沿進度條移動</div>
+      <div class="sp-item"><span class="k">文案</span>「遊戲正在加載中...」+ 資源載入描述 + 百分比</div>
+      <div class="sp-item"><span class="k">氛圍</span>金字塔、瀑布、火把、持斧原住民角色（美術素材）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAIN ============ -->
+<section class="sec" id="main">
+  <div class="sec-head"><span class="no">SCREEN 02</span><h2>直播主畫面 + 投注面板（Basic Game）</h2></div>
+  <div class="sec-desc">左聊天 / 中直播 / 右獎池，底部 1–36 選號投注列。玩家選 <b>3 個號碼</b>，中 1 賠 1.5x、中 2 賠 20x、中 3 拿罐內倍數。<br>
+  <span class="warnline">投注時長矛盾：規則頁 15s vs 流程圖 30s（下圖環形倒數 18s 僅為原型示例）</span>
+  <span class="warnline">三級獎池膠囊疑為現有 Color Game 素材，與本遊戲「單一 Jackpot」設定矛盾</span>
+  <span class="okline">1-36 選號面板無完整佈局稿，此為按元件級規格的推導示意</span></div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="game-screen">
+        <div class="mini-tab">M I N I</div>
+        <div class="g-top">
+          <div class="user-pill"><div class="avatar">A</div>AAA ›</div>
+          <div class="balance-pill">🪙 Balance: 20,000.00</div>
+          <div class="marquee">📣 Happy New Year 2025</div>
+          <div class="viewers">👥 1,024</div>
+        </div>
+        <div class="g-mid">
+          <div class="chat-col">
+            <div class="pin-msg">🎁 22选择未来时间</div>
+            <div class="chat-line"><b>Nh**ey</b> pending 200 kanina pa</div>
+            <div class="chat-line"><b>13**2</b> sada</div>
+            <div class="chat-line"><b>Pe**ko</b> delay bayad nyo</div>
+            <div class="chat-line"><b>AAA</b> dfgs</div>
+            <div class="chat-line"><b>ok**5</b> qqq</div>
+            <div class="chat-input"><div class="in">Send Message...</div><div class="send">Send</div></div>
+          </div>
+          <div class="live-col">
+            <div class="host-stage">
+              <div class="live-tag">LIVE</div><div class="cam">🎥</div>
+              <div class="chestwall"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="host">💃</div>
+              <div class="machine">🔮</div>
+            </div>
+          </div>
+          <div class="jp-col">
+            <div class="jp grand"><small>GRAND</small>4,999,993.38</div>
+            <div class="jp major"><small>MAJOR</small>499,978.93</div>
+            <div class="jp minor"><small>MINOR</small>14,965.08</div>
+            <div class="road"><div class="rt">ROAD TO REWARD GAME...</div><div class="rb"><i></i></div></div>
+          </div>
+        </div>
+        <div class="bet-bar">
+          <div class="ring"><i>18s</i></div>
+          <div class="numgrid">
+            <div class="n">1</div><div class="n">2</div><div class="n sel">3</div><div class="n">4</div><div class="n">5</div><div class="n">6</div><div class="n">7</div><div class="n sel">8</div><div class="n">9</div><div class="n">10</div><div class="n">11</div><div class="n">12</div>
+            <div class="n">13</div><div class="n">14</div><div class="n">15</div><div class="n">16</div><div class="n">17</div><div class="n">18</div><div class="n">19</div><div class="n">20</div><div class="n">21</div><div class="n sel">22</div><div class="n">23</div><div class="n">24</div>
+            <div class="n">25</div><div class="n">26</div><div class="n">27</div><div class="n">28</div><div class="n">29</div><div class="n">30</div><div class="n">31</div><div class="n">32</div><div class="n">33</div><div class="n">34</div><div class="n">35</div><div class="n">36</div>
+          </div>
+          <div class="bet-side">
+            <div class="chips">
+              <div class="chip-c c5">5</div><div class="chip-c c20 sel-chip">20</div><div class="chip-c c100">100</div><div class="chip-c c500">500</div><div class="chip-c c1k">1K</div><div class="chip-c custom">✎</div>
+            </div>
+            <div class="bet-actions">
+              <div class="freebet">Free Bet <div class="toggle"><i></i></div></div>
+              <div class="btn reset">Reset</div>
+              <div class="btn max">Max Bet</div>
+              <div class="btn confirm">Confirm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><div class="frame-label">主畫面 · 選號 3/3（示例選 03 / 08 / 22）</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">籌碼</span>5 / 20 / 100 / 500 / 1K + <b>自訂籌碼</b>（編輯筆）</div>
+      <div class="sp-item"><span class="k">操作</span>Reset / Max Bet / Confirm（未選滿 3 號 → disabled）</div>
+      <div class="sp-item"><span class="k">Free Bet</span>ON/OFF 開關（⚠️ 規則來源未定義，見待釐清 #11）</div>
+      <div class="sp-item"><span class="k">聊天</span>暱稱打碼 <b>Nh**ey</b>、釘選公告、顯示 On/Off</div>
+      <div class="sp-item"><span class="k">Reward 進度</span>「ROAD TO REWARD GAME...」藍條 → 滿時變黃條「STARTING NOW!」</div>
+      <div class="sp-item"><span class="k">其他</span>跑馬燈公告、在線人數、禮物 icon、其他遊戲入口卡（LIVE 標）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GOLDEN ============ -->
+<section class="sec" id="golden">
+  <div class="sec-head"><span class="no">SCREEN 03</span><h2>黃金圈觸發（Golden Ring）</h2></div>
+  <div class="sec-desc">投注截止後、開獎前 <b>15% 機率</b>觸發：全屏金色邊框閃爍，開獎球數 <b>3 → 5</b>。場控端同步顯示「当前状态 黄金圈已触发」。</div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="game-screen">
+        <div class="golden-overlay">
+          <div class="golden-card">
+            <div class="gc-t">✨ GOLDEN RING ✨</div>
+            <div class="gc-s">本輪開獎增加至 5 個球！</div>
+            <div class="balls">
+              <div class="ball">?</div><div class="ball">?</div><div class="ball">?</div><div class="ball ghost">+1</div><div class="ball ghost">+1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><div class="frame-label">全屏金框特效 · 3 球 → 5 球</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">觸發時點</span>鎖單後、開獎前，由後端 15% 判定推送</div>
+      <div class="sp-item"><span class="k">主持人</span>口播「本輪開獎增加至 5 個球！」</div>
+      <div class="sp-item"><span class="k">未觸發</span>直接進常規 3 球開獎，無此畫面</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DRAW ============ -->
+<section class="sec" id="draw">
+  <div class="sec-head"><span class="no">SCREEN 04</span><h2>開獎 + 倍數記錄懸浮窗</h2></div>
+  <div class="sec-desc">場控逐球輸入 → LED / 客戶端逐格翻罐揭倍數 → 實時填入倍數記錄懸浮窗。最終賠率 ≥ 30x 觸發大獎報幕。<br><span class="warnline">中 3 球語義未定：單罐倍數 or 三罐累加（30,000x = 10,000×3 才成立）——影響此窗總計顯示</span></div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="draw-screen">
+        <div class="can-flip">
+          <div class="c">18</div><div class="c">3</div><div class="c open">x50</div><div class="c">9</div><div class="c">31</div><div class="c">14</div>
+          <div class="c">22</div><div class="c">6</div><div class="c">35</div><div class="c open">x10</div><div class="c">19</div><div class="c">28</div>
+          <div class="c">12</div><div class="c">13</div><div class="c">14</div><div class="c">15</div><div class="c">16</div><div class="c">17</div>
+          <div class="c">19</div><div class="c open">x2.5</div><div class="c">21</div><div class="c">22</div><div class="c">23</div><div class="c">24</div>
+          <div class="c">25</div><div class="c">26</div><div class="c">27</div><div class="c">28</div><div class="c">29</div><div class="c">30</div>
+          <div class="c">31</div><div class="c">32</div><div class="c">33</div><div class="c">34</div><div class="c">35</div><div class="c">36</div>
+        </div>
+        <div class="mult-window">
+          <div class="mw-t">倍數記錄</div>
+          <div class="mw-row"><span class="no">🎱 No.03</span><span class="x">x50</span></div>
+          <div class="mw-row"><span class="no">🎱 No.10</span><span class="x">x10</span></div>
+          <div class="mw-row"><span class="no">🎱 No.20</span><span class="x">x2.5</span></div>
+          <div class="mw-row"><span class="no" style="color:#5d7a68">🎱 —</span><span class="x" style="color:#5d7a68">--</span></div>
+          <div class="mw-row"><span class="no" style="color:#5d7a68">🎱 —</span><span class="x" style="color:#5d7a68">--</span></div>
+          <div class="mw-total">TOTAL x62.5 ⚠️</div>
+        </div>
+      </div>
+    </div><div class="frame-label">逐球開獎（黃金圈 5 球示例，已開 3 球）</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">節奏</span>loop 3 或 5 次：場控輸入球號 → 翻罐 → 倍數入窗</div>
+      <div class="sp-item"><span class="k">大獎報幕</span>最終賠率 ≥ 30x → 全屏金光煙花特效</div>
+      <div class="sp-item"><span class="k">收尾</span>結算後懸浮窗關閉並清空數據</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WIN ============ -->
+<section class="sec" id="win">
+  <div class="sec-head"><span class="no">SCREEN 05</span><h2>結算彈窗</h2></div>
+  <div class="sec-desc">後端推送個人結算 → 彈通用結算彈窗，需支援 <b>未中 / 中1 / 中2 / 中3</b> 四態（中 3 額外顯示倍數）。同步更新錢包餘額。</div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="modal-demo">
+        <div class="win-pop">
+          <div class="crown">👑</div>
+          <div class="wp-close">✕</div>
+          <div class="yw">YOU WIN</div>
+          <div class="ribbon">66,040.00</div>
+          <div class="wp-s">匹配 3 個號碼 · 罐內倍數派彩</div>
+        </div>
+      </div>
+    </div><div class="frame-label">中獎態（原型素材為聖誕海灘風，最終皮膚未定）</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">金額口徑</span>⚠️ 歷史列表顯示淨贏（+30）、詳情 Payout 含本金（+50），彈窗用哪種需定義</div>
+      <div class="sp-item"><span class="k">層級</span>彈窗底層透出聊天訊息（可見原型截圖）</div>
+      <div class="sp-item"><span class="k">Reward 結算</span>另一版彈窗：Reward 倍數 / 獎池均分 + Snake 四項對錯</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REWARD ============ -->
+<section class="sec" id="reward">
+  <div class="sec-head"><span class="no">SCREEN 06</span><h2>Reward Game（蛇行寶箱）+ Snake 競猜</h2></div>
+  <div class="sec-desc">全服累積投注達 <b>5,000,000 PHP</b> 觸發。8×8 盤面，蛇初始 4 步；同屏兩個投注面板（Reward 本體注 + Snake 競猜），30s 倒數。<br>
+  <span class="warnline">Reward 限額「Basic 投注額或 5,000 PHP 取較大者」疑為筆誤（通常取小）</span>
+  <span class="warnline">炸彈位置是否預先下發客戶端 → 涉防作弊，待定</span></div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="reward-screen">
+        <div class="board-wrap">
+          <div class="reward-title"><span class="zap">⚡</span> REWARD GAME</div>
+          <div class="board">
+            <div class="cell c12">1.2</div><div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.8</div><div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell c12">1.2</div>
+            <div class="cell c12">1.2</div><div class="cell snake">🐍</div><div class="cell path"></div><div class="cell path"></div><div class="cell c12">2.5</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.2</div>
+            <div class="cell">💣</div><div class="cell c12">1.8</div><div class="cell c12">1.2</div><div class="cell path"></div><div class="cell">🎁</div><div class="cell c12">1.2</div><div class="cell c12">1.8</div><div class="cell">💣</div>
+            <div class="cell c12">1.2</div><div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell path"></div><div class="cell c12">1.2</div><div class="cell c12">2.5</div><div class="cell">💣</div><div class="cell c12">1.2</div>
+            <div class="cell c12">1.8</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.2</div><div class="cell">🏺</div><div class="cell c12">1.2</div><div class="cell c12">1.2</div><div class="cell c12">1.8</div>
+            <div class="cell c12">1.2</div><div class="cell c12">2.5</div><div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell">🎁</div><div class="cell c12">1.2</div><div class="cell">💣</div>
+            <div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.8</div><div class="cell c12">1.2</div><div class="cell c12">2.5</div><div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell c12">1.2</div>
+            <div class="cell c12">1.2</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.8</div><div class="cell">💣</div><div class="cell c12">1.2</div><div class="cell c12">1.2</div><div class="cell">💣</div>
+          </div>
+          <div class="legend">🐍 蛇（初始 4 步）　<span>1.2/1.8/2.5 倍數箱</span>　🎁 金箱+2步　🏺 瑪雅寶藏(分獎池)　💣 炸彈×15(清空即終)</div>
+        </div>
+        <div class="side-panel">
+          <div class="cur-mult">當前倍數：x14.5</div>
+          <div class="rw-bet">CURRENT REWARD BET<br><b>5,000 PHP</b></div>
+          <div class="sp-card">
+            <div class="t">SNAKE GAME 競猜</div>
+            <div class="odd-row"><span>起始位置 左/右</span><b>1.90</b></div>
+            <div class="odd-row"><span>碰炸彈 是/否</span><b>1.40 / 2.90</b></div>
+            <div class="odd-row"><span>觸發金箱 是/否</span><b>15.50 / 1.00</b></div>
+            <div class="odd-row"><span>步數 &lt;4 / 4 / &gt;4</span><b>1.70 / 2.40 / 18.00</b></div>
+          </div>
+          <div class="sp-card" style="text-align:center;color:#d9cdb7">獎池 Jackpot<br><b style="color:var(--gold);font-size:15px">₱ 214,520.00</b><br><small style="color:#8a7b5c">初始 20 萬 · 每局注入總投注 2%</small></div>
+        </div>
+      </div>
+    </div><div class="frame-label">8×8 盤面 + 雙投注面板（佈局為推導示意）</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">資格</span>Reward 本體限當期投過 Basic 的玩家；Snake 競猜任何人可玩</div>
+      <div class="sp-item"><span class="k">蛇行事件</span>普通箱倍數累加 / 金箱+2步 / 瑪雅寶藏命中獎池(全體均分) / 炸彈清空即終局</div>
+      <div class="sp-item"><span class="k">結算</span>LED 顯示最終倍數、獎池均分名單、競猜贏家；排行榜<b>待定</b></div>
+      <div class="sp-item"><span class="k">當前倍數</span>「當前倍數：x14.5」石板金邊橫條實時顯示（有稿）</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HISTORY ============ -->
+<section class="sec" id="history">
+  <div class="sec-head"><span class="no">SCREEN 07</span><h2>歷史紀錄（右側抽屜）</h2></div>
+  <div class="sec-desc">以右側抽屜 / 半屏彈窗蓋在直播畫面上。列表 → 詳情兩層。開獎號碼牌 <b>3 格（常規）/ 5 格（黃金圈）</b>，兩位數補零。<br>
+  <span class="warnline">輸贏口徑：列表淨贏 +30 vs 詳情 Payout +50（含本金）並存</span>
+  <span class="warnline">日期格式三種並存：2026-04-27 | ／ 2026/04/27 | ／ April 27, 2026 |</span></div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="hist-screen">
+        <div class="hist-dim">◀ 直播畫面（半透明遮罩）</div>
+        <div class="drawer">
+          <div class="dr-head"><span>‹　Betting Record</span><span class="x">✕</span></div>
+          <div class="dr-filters"><div class="f">All ⌄</div><div class="f">Today ⌄</div></div>
+          <div class="rec-card">
+            <div class="rec-top"><span><span class="tag-cg">Tumbang Preso</span><span class="dots"><span class="nb" style="width:16px;height:16px;font-size:8px">03</span><span class="nb" style="width:16px;height:16px;font-size:8px">08</span><span class="nb" style="width:16px;height:16px;font-size:8px">22</span></span></span><span class="tag-settled">Settled</span></div>
+            <div class="rec-mid"><span>20.00</span><span class="win">+30.00</span></div>
+            <div class="rec-time">2026-04-27 | 17:18:52</div>
+          </div>
+          <div class="rec-card">
+            <div class="dr-head" style="padding:0 0 6px;border-bottom:1px dashed #e8edf5;margin-bottom:6px;font-size:11.5px">Betting Details</div>
+            <div class="det-row"><span>Betting Number</span><span class="link">ac5833354c04225... ⧉</span></div>
+            <div class="det-row"><span>Amount / Win-Loss</span><b>20.00 / <span style="color:#2b9e5c">+30.00</span></b></div>
+            <div class="det-row"><span>Winning Content</span><span class="numballs"><span class="nb">03</span><span class="nb">08</span><span class="nb">22</span><span class="nb">21</span><span class="nb">32</span></span></div>
+            <div class="payout-line"><span class="pt">✓ Payout</span><span class="pv">+50.00</span></div>
+            <div class="rec-time">Payout Time：April 27, 2026 | 17:19:22</div>
+          </div>
+        </div>
+      </div>
+    </div><div class="frame-label">列表卡 + 詳情卡（詳情示例為黃金圈 5 球）</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">列表卡</span>遊戲標籤 + 投注縮圖 + Settled 狀態 + 金額 + 輸贏 + 時間</div>
+      <div class="sp-item"><span class="k">詳情</span>單號可複製；投注內容/開獎結果分區；Payout 卡含派彩時間</div>
+      <div class="sp-item"><span class="k">篩選</span>遊戲類型（All）/ 日期（Today）下拉，可選項清單原型未展示</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LED ============ -->
+<section class="sec" id="led">
+  <div class="sec-head"><span class="no">SCREEN 08</span><h2>LED 大屏演出狀態（11 態）</h2></div>
+  <div class="sec-desc">前端若負責 LED 端，需實作以下狀態序列（原型為概念圖，此處示意）。</div>
+  <div class="led-strip">
+    <div class="led-card"><div class="lc-vis lv1">🥫🥫🥫</div><div class="lc-t">1. 待機<small>罐頭陣列素體</small></div></div>
+    <div class="led-card"><div class="lc-vis lv2">⚡2000x ✦5000x 🔥10000x</div><div class="lc-t">2. 高倍展示<small>特效落罐</small></div></div>
+    <div class="led-card"><div class="lc-vis lv3">🌀</div><div class="lc-t">3. 洗牌<small>高速旋轉模糊</small></div></div>
+    <div class="led-card"><div class="lc-vis lv1">1️⃣…3️⃣6️⃣</div><div class="lc-t">4. 編號揭示<small>罐頂 1–36 號</small></div></div>
+    <div class="led-card"><div class="lc-vis lv4">🛕 6×6 📦</div><div class="lc-t">5. 主畫面<small>瑪雅石雕框 + 寶箱網格</small></div></div>
+    <div class="led-card"><div class="lc-vis lv2">x5 x20 x50</div><div class="lc-t">6. 開獎揭倍數<small>倍數飛入結算</small></div></div>
+    <div class="led-card"><div class="lc-vis lv5">🎆 BIG WINNER!</div><div class="lc-t">7. 大獎報幕<small>≥30x 觸發</small></div></div>
+    <div class="led-card"><div class="lc-vis lv3">💥</div><div class="lc-t">8. 重置<small>網格爆散清空</small></div></div>
+    <div class="led-card"><div class="lc-vis lv4">🐍 💰 💣</div><div class="lc-t">9. Reward Game<small>石室蛇行盤面</small></div></div>
+    <div class="led-card"><div class="lc-vis lv4">🔥🔥⬛⬜</div><div class="lc-t">10. 步數指示<small>STEP I–IV 火盆</small></div></div>
+    <div class="led-card"><div class="lc-vis lv5">PATH OF RICHES</div><div class="lc-t">11a. 回合結算・勝<small>TOTAL x4 + JACKPOT WIN</small></div></div>
+    <div class="led-card"><div class="lc-vis lv6">FATE'S DEBT</div><div class="lc-t">11b. 回合結算・敗<small>GAME OVER</small></div></div>
+  </div>
+</section>
+
+<!-- ============ CTRL ============ -->
+<section class="sec" id="ctrl">
+  <div class="sec-head"><span class="no">SCREEN 09</span><h2>場控端（現場操作介面）</h2></div>
+  <div class="sec-desc">現場人員逐球輸入開獎、監控聊天並可封禁用戶。高頻操作全配<b>鍵盤快捷鍵</b>：Start=<b>+</b>、Clear=<b>.</b>、Submit=<b>Enter</b>。</div>
+  <div class="stage">
+    <div class="frame landscape"><div class="screen">
+      <div class="ctrl-screen">
+        <div class="ctrl-top">
+          <span class="cfield">game number：<b>TPE01</b> ⧉</span>
+          <span class="cfield">Seq：<b>1145202604230003</b> ⧉</span>
+          <span class="cbtn start">Start next game (+)</span>
+          <span class="cfield">State:</span>
+          <span class="cbtn open">open</span><span class="cbtn close">close</span><span class="cbtn maintain">maintain</span>
+          <span class="gstate">当前状态 黄金圈已触发</span>
+          <span class="cfield" style="margin-left:auto">👥 online: 2</span>
+        </div>
+        <div class="ctrl-main">
+          <div class="ctrl-chat">
+            <div class="cc-t">Chat（點名封禁）</div>
+            <div class="cc-line"><b>fdd</b>: kkk</div>
+            <div class="cc-line"><b>an liu</b>: 111</div>
+            <div class="cc-line"><b>okky</b>: 000</div>
+            <div class="cc-line"><b>123</b>: color</div>
+            <div class="cc-line"><b>1507</b>: Gvvvvgggg</div>
+          </div>
+          <div class="ctrl-num">
+            <div class="slots"><div class="slot">03</div><div class="slot">08</div><div class="slot">22</div><div class="slot empty">--</div><div class="slot empty">--</div></div>
+            <div class="ctrl-grid">
+              <div class="cg hit">01</div><div class="cg">02</div><div class="cg hit">03</div><div class="cg">04</div><div class="cg">05</div><div class="cg">06</div>
+              <div class="cg">07</div><div class="cg hit">08</div><div class="cg">09</div><div class="cg">10</div><div class="cg">11</div><div class="cg">12</div>
+              <div class="cg">13</div><div class="cg">14</div><div class="cg">15</div><div class="cg">16</div><div class="cg">17</div><div class="cg">18</div>
+              <div class="cg">19</div><div class="cg">20</div><div class="cg">21</div><div class="cg hit">22</div><div class="cg">23</div><div class="cg">24</div>
+              <div class="cg">25</div><div class="cg">26</div><div class="cg">27</div><div class="cg">28</div><div class="cg">29</div><div class="cg">30</div>
+              <div class="cg">31</div><div class="cg">32</div><div class="cg">33</div><div class="cg">34</div><div class="cg">35</div><div class="cg">36</div>
+            </div>
+            <div class="ctrl-actions">
+              <span class="cbtn clear">Clear (.)</span><span class="cbtn rgame">reset game</span><span class="cbtn submit">Submit Result (Enter)</span>
+            </div>
+          </div>
+          <div class="ctrl-rank">
+            <div class="cc-t">Winning Ranking</div>
+            <div class="rank-h"><span>No</span><span>User</span><span>Amount</span></div>
+          </div>
+        </div>
+      </div>
+    </div><div class="frame-label">場控端 · First / Second lottery 兩段開獎輸入</div></div>
+    <div class="spec">
+      <div class="sp-item"><span class="k">局資訊</span>game number / Game name / Seq（17 位期號，帶複製）</div>
+      <div class="sp-item"><span class="k">開獎輸入</span>5 個號碼格（未輸入 <b>--</b>）+ 6×6 數字面板 01–36</div>
+      <div class="sp-item"><span class="k">狀態</span>open / close / maintain 三態；黃金圈觸發同步顯示</div>
+      <div class="sp-item"><span class="k">監控</span>聊天列表點用戶名封禁；Winning Ranking 排行</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOW ============ -->
+<section class="sec" id="flow">
+  <div class="sec-head"><span class="no">DEV 10</span><h2>客戶端狀態機（框架無關）</h2></div>
+  <div class="sec-desc">整局 UI 完全由 phase 驅動；命名為推論佔位，以後端協議為準。<b>斷線重連</b>：後端需下發當前 phase + 剩餘倒數 + 已開球號/蛇步，客戶端直接跳轉對應狀態。</div>
+  <div class="flowband">
+    <div class="fnode"><div class="fp">IDLE</div><div class="fn">準備中</div><div class="fd">直播畫面，無面板</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">BETTING</div><div class="fn">投注中</div><div class="fd">1-36 選 3 + 倒數</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode hot"><div class="fp">GOLDEN_CHECK</div><div class="fn">黃金圈判定</div><div class="fd">15% → 5 球特效</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">DRAWING</div><div class="fn">開獎中</div><div class="fd">逐球 3~5 次</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">SETTLE</div><div class="fn">結算</div><div class="fd">彈窗 + 錢包更新</div></div>
+  </div>
+  <div class="subflow">
+    <span class="sf-tag">全服累積達 5M 時插入</span>
+    <div class="fnode"><div class="fp">REWARD_INTRO</div><div class="fn">獎勵局觸發</div><div class="fd">進度條爆滿轉場</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">REWARD_BETTING</div><div class="fn">獎勵局投注</div><div class="fd">雙面板 30s</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">SNAKE_MOVING</div><div class="fn">蛇行中</div><div class="fd">逐步事件動畫</div></div>
+    <div class="farrow">→</div>
+    <div class="fnode"><div class="fp">REWARD_SETTLE</div><div class="fn">獎勵局結算</div><div class="fd">彈窗 → 回 IDLE</div></div>
+  </div>
+  <p class="sec-desc" style="margin-top:18px">推送事件（後端→客戶端，佔位名）：<code style="background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:12px">round.start / round.lock / golden.trigger / draw.ball / round.settle / progress.update / reward.intro / reward.betting / snake.step / reward.settle / wallet.update</code>　上行僅三種：Basic 選號注、Reward 本體注、Snake 競猜注。</p>
+</section>
+
+<!-- ============ ISSUES ============ -->
+<section class="sec" id="issues">
+  <div class="sec-head"><span class="no">⚠️ 11</span><h2>開發前必須釐清（11 條）</h2></div>
+  <div class="issues">
+    <div class="issue"><div class="in">ISSUE 01 · 玩法</div>投注時長：<b>15 秒 or 30 秒</b>？（規則頁 vs 流程圖矛盾）</div>
+    <div class="issue"><div class="in">ISSUE 02 · 結算</div>中 3 球賠付：<b>單罐倍數 or 三罐累加</b>？（30,000x 的依據）</div>
+    <div class="issue"><div class="in">ISSUE 03 · 限額</div>Reward 限額「取較大者」是否<b>筆誤</b>？</div>
+    <div class="issue"><div class="in">ISSUE 04 · 賠率</div>Snake「不觸發金箱」賠率 <b>1.00</b>（純退本金）的存在意義？</div>
+    <div class="issue"><div class="in">ISSUE 05 · 待定</div>Reward 結算<b>排行榜</b>的最終方案？（原型標待定）</div>
+    <div class="issue"><div class="in">ISSUE 06 · 定名</div>Tumbang Preso Extreme / <b>Mayan Jungle Quest</b>？</div>
+    <div class="issue"><div class="in">ISSUE 07 · UI 稿</div>1-36 選號面板、Reward/Snake 面板<b>完整佈局稿</b>何時提供？（現有完整稿為它遊素材）</div>
+    <div class="issue"><div class="in">ISSUE 08 · 口徑</div>歷史紀錄輸贏口徑（<b>淨贏 vs 含本金</b>）與日期格式統一。</div>
+    <div class="issue"><div class="in">ISSUE 09 · 配置</div>賠率/限額/門檻是否<b>全部後端下發</b>？（風控會動態調整，前端不寫死）</div>
+    <div class="issue"><div class="in">ISSUE 10 · 獎池</div>客戶端三級獎池膠囊（GRAND/MAJOR/MINOR）vs 規則<b>單一 Jackpot 20 萬</b>——到底顯示幾個？</div>
+    <div class="issue"><div class="in">ISSUE 11 · 機制</div><b>Free Bet</b> 的規則來源與發放方式？（面板有開關，規則頁隻字未提）</div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  TUMBANG PRESO EXTREME · 前端需求視覺稿 · 整理自 Axure 原型（j49er3.axshare.com，2026-05-28）<br>
+  本頁所有畫面為<b style="color:#aeb9cf">需求示意（CSS mock）</b>，非最終美術；單一自足 HTML，可直接傳閱、任何瀏覽器可開
+</footer>
+
+</body>
+</html>
