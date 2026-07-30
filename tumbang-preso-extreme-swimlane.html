@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TPE 用戶旅程泳道圖 · v5.1</title>
+<style>
+  :root{
+    --bg:#0b0f1a; --card:#151d2e; --card2:#1a2438; --line:#2a3650;
+    --gold:#f0c75e; --gold-dim:#d4af37; --txt:#e8ecf4; --txt2:#9aa7bd;
+    --l-player:#f0c75e; --l-client:#60a5fa; --l-server:#c084fc; --l-stage:#4ade80;
+    --warn:#fbbf24; --red:#f87171;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--txt);font-family:"PingFang TC","PingFang SC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.55}
+  .num{font-family:ui-monospace,Menlo,Consolas,monospace}
+
+  header{text-align:center;padding:52px 20px 30px;background:radial-gradient(ellipse 70% 70% at 50% 0%,#1a2438 0%,var(--bg) 72%)}
+  header h1{font-size:28px;letter-spacing:2px;color:var(--gold)}
+  header .sub{color:var(--txt2);font-size:13px;margin-top:6px}
+  .badge{display:inline-block;padding:3px 12px;border:1px solid var(--gold-dim);border-radius:999px;color:var(--gold);font-size:12px;margin:14px 3px 0}
+
+  .board-outer{overflow-x:auto;padding:0 16px 40px}
+  .board{min-width:960px;max-width:1180px;margin:0 auto}
+
+  /* lane header */
+  .lanes-head{display:grid;grid-template-columns:110px repeat(4,1fr);gap:10px;position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
+  .lane-title{text-align:center;font-size:14px;font-weight:700;padding:10px 6px;border-radius:10px;border:1px solid var(--line);background:var(--card)}
+  .lane-title small{display:block;font-weight:400;font-size:11px;color:var(--txt2);margin-top:2px}
+  .lt-player{border-top:3px solid var(--l-player)}
+  .lt-client{border-top:3px solid var(--l-client)}
+  .lt-server{border-top:3px solid var(--l-server)}
+  .lt-stage{border-top:3px solid var(--l-stage)}
+
+  /* phase band */
+  .band{display:grid;grid-template-columns:110px repeat(4,1fr);gap:10px;padding:18px 0;border-bottom:1px dashed #182238;position:relative}
+  /* lane guides */
+  .band::before{content:"";position:absolute;inset:0 0 0 120px;background:
+    linear-gradient(90deg,transparent calc(12.5% - 1px),#141c2c 12.5%,transparent calc(12.5% + 1px)) ;pointer-events:none}
+  .phase-label{writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:4px;color:var(--gold-dim);border:1px solid var(--line);border-radius:10px;background:var(--card);padding:14px 4px;align-self:stretch}
+  .rows{grid-column:2 / span 4;display:flex;flex-direction:column}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+  .node{border-radius:10px;padding:9px 12px;font-size:12.5px;background:var(--card2);border:1px solid var(--line);position:relative}
+  .node b{font-size:12.5px}
+  .node small{display:block;color:var(--txt2);font-size:11px;margin-top:2px}
+  .n-player{grid-column:1;border-left:3px solid var(--l-player)}
+  .n-client{grid-column:2;border-left:3px solid var(--l-client)}
+  .n-server{grid-column:3;border-left:3px solid var(--l-server)}
+  .n-stage{grid-column:4;border-left:3px solid var(--l-stage)}
+  .n-wide{grid-column:1 / -1;text-align:center;border-left:none;border-color:var(--gold-dim);color:var(--gold)}
+
+  /* decision */
+  .decision{border-color:var(--gold-dim);background:linear-gradient(135deg,#241d0e,#1a2438)}
+  .decision b{color:var(--gold)}
+
+  /* arrows between rows */
+  .arr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;height:22px}
+  .arr i{font-style:normal;text-align:center;color:var(--gold-dim);font-size:13px;line-height:22px}
+  .a1{grid-column:1}.a2{grid-column:2}.a3{grid-column:3}.a4{grid-column:4}
+  .arr .lbl{font-size:10px;color:var(--txt2);margin-left:4px}
+
+  /* branch chips inline */
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+  .chip{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--txt2)}
+  .chip.ok{border-color:#2c4a35;color:#4ade80}
+  .chip.no{border-color:#4a2c2c;color:var(--red)}
+  .chip.warn{border-color:#4a3d1a;color:var(--warn)}
+
+  /* legend & notes */
+  .legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;padding:16px;font-size:12px;color:var(--txt2)}
+  .legend i{font-style:normal;display:inline-flex;align-items:center;gap:6px}
+  .legend b{width:12px;height:12px;border-radius:3px;display:inline-block}
+  .notes{max-width:1180px;margin:0 auto;padding:0 16px 50px}
+  .warnbox{background:#241d0e;border:1px solid #4a3d1a;border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--warn)}
+  footer{text-align:center;color:var(--txt2);font-size:12px;padding:0 16px 46px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>TUMBANG PRESO EXTREME · 用戶旅程泳道圖</h1>
+  <div class="sub">四泳道：玩家 / 客戶端 UI / 服務器 / 現場演出 —— 縱向為時間軸</div>
+  <span class="badge">v5.1 (RTP95-JP-SF)</span><span class="badge">2026-07-30</span>
+</header>
+
+<div class="legend">
+  <i><b style="background:var(--l-player)"></b>玩家操作</i>
+  <i><b style="background:var(--l-client)"></b>客戶端 UI</i>
+  <i><b style="background:var(--l-server)"></b>服務器</i>
+  <i><b style="background:var(--l-stage)"></b>現場（主持人·輪盤·LED）</i>
+  <i>◇ = 判定分支</i><i>⚠️ = 待釐清</i>
+</div>
+
+<div class="board-outer"><div class="board">
+
+  <div class="lanes-head">
+    <div></div>
+    <div class="lane-title lt-player">玩家<small>操作與決策</small></div>
+    <div class="lane-title lt-client">客戶端 UI<small>面板·彈窗·錢包</small></div>
+    <div class="lane-title lt-server">服務器<small>判定·結算·推送</small></div>
+    <div class="lane-title lt-stage">現場演出<small>主持人·輪盤·LED</small></div>
+  </div>
+
+  <!-- 進站準備 -->
+  <div class="band">
+    <div class="phase-label">進站準備</div>
+    <div class="rows">
+      <div class="row"><div class="node n-player"><b>① 充值</b><small>GCash · 銀行 → 平台錢包</small></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player"><b>② 進入平台大廳</b></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player"><b>③ 找到 TPE 直播遊戲入口</b></div></div>
+      <div class="arr"><i class="a2">▼<span class="lbl">交棒客戶端</span></i></div>
+      <div class="row"><div class="node n-client"><b>④ 進入房間 TP-01</b><small>加載 3D 場景 · 餘額 · JP 池（常駐顯示）</small></div></div>
+    </div>
+  </div>
+
+  <!-- R1 下注 -->
+  <div class="band">
+    <div class="phase-label">R1 下注 20s</div>
+    <div class="rows">
+      <div class="row"><div class="node n-server"><b>⑤ 開注指令</b><small>R1 下注開放 · 20 秒倒計時</small></div></div>
+      <div class="arr"><i class="a2">▼<span class="lbl">推送開注</span></i></div>
+      <div class="row"><div class="node n-client"><b>彈出投注面板</b><small>36 選 3 · 倒數計時環</small></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player"><b>⑥ 選 3 個號碼（1-36）</b><small>可加注 ≤ 20 注 ⚠️ 結算口徑待定</small></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player"><b>⑦ 選每注金額</b><small class="num">P5 / 20 / 50 / 100 / 500 / 1000</small></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player decision"><b>⑧ 點確認下注 ◇</b>
+        <div class="chips"><span class="chip no">餘額不足 → 彈充值</span><span class="chip no">窗口已關 → 自動進下一輪</span><span class="chip ok">成功 → ⑨</span></div>
+      </div></div>
+      <div class="arr"><i class="a3">▼<span class="lbl">提交訂單</span></i></div>
+      <div class="row"><div class="node n-server"><b>⑨ ACK · 鎖定 · 扣款</b></div></div>
+    </div>
+  </div>
+
+  <!-- R1 開獎結算 -->
+  <div class="band">
+    <div class="phase-label">R1 開獎結算</div>
+    <div class="rows">
+      <div class="row"><div class="node n-server"><b>⑩ 下注關閉</b><small>鎖單 · 指令輪盤啟動</small></div></div>
+      <div class="arr"><i class="a4">▼<span class="lbl">現場接手</span></i></div>
+      <div class="row"><div class="node n-stage"><b>實體輪盤開 3 球</b><small>滾桶搖球 · 物理無腳本（黃金圈已移除）</small></div></div>
+      <div class="arr"><i class="a2">▼<span class="lbl">逐球同步</span></i></div>
+      <div class="row"><div class="node n-client"><b>同步顯示已開球號</b><small class="num">例：03 · 08 · 22</small></div></div>
+      <div class="arr"><i class="a3">▼</i></div>
+      <div class="row"><div class="node n-server decision"><b>⑪ 命中判定 ◇</b>
+        <div class="chips"><span class="chip">0中 76.4% → 0x</span><span class="chip ok">1中 22.2% → 2x</span><span class="chip ok">2中 1.38% → 28x</span><span class="chip warn">3中 0.014% → 780x</span></div>
+      </div></div>
+      <div class="arr"><i class="a2">▼<span class="lbl">結算推送</span></i></div>
+      <div class="row"><div class="node n-client"><b>結算彈窗 · 錢包更新</b></div></div>
+    </div>
+  </div>
+
+  <!-- R2 觸發判定 -->
+  <div class="band">
+    <div class="phase-label">R2 觸發判定</div>
+    <div class="rows">
+      <div class="row"><div class="node n-server decision"><b>⑫ 隱藏流水閾值判定 ◇</b><small>局間累計有效流水超過隱藏閾值？<b style="color:var(--red)">玩家不可見</b> ⚠️ 小字（≤5%×?金額 / ×5% 賠償）判讀不確定</small>
+        <div class="chips"><span class="chip no">未越過 → 回 R1 繼續累計</span><span class="chip warn">越過但本輪無中獎 → armed 等下一合格輪</span><span class="chip ok">越過且本輪有中獎 → 觸發 R2</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- R2 免費延續 -->
+  <div class="band">
+    <div class="phase-label">R2 免費延續</div>
+    <div class="rows">
+      <div class="row"><div class="node n-server"><b>⑬ 觸發 R2</b><small>鎖定觸發輪 winner set ⚠️ 範圍待確認</small></div></div>
+      <div class="arr"><i class="a2">▼</i></div>
+      <div class="row"><div class="node n-client"><b>⑭ CAN AWAKENING</b><small>播 5 秒罐甦醒動畫</small></div></div>
+      <div class="arr"><i class="a4">▼<span class="lbl">現場演出</span></i></div>
+      <div class="row"><div class="node n-stage"><b>⑮ 主持人投罐 → LED 揭牌</b><small>結果服務器已定 · 投罐僅是動畫</small></div></div>
+      <div class="arr"><i class="a3">▼</i></div>
+      <div class="row"><div class="node n-server decision"><b>⑯ 共享檔位 ◇（全員同檔）</b>
+        <div class="chips"><span class="chip">SAFE 45% → 1.0x 保本</span><span class="chip">BRONZE 35% → 1.2x</span><span class="chip">SILVER 15% → 1.5x</span><span class="chip warn">GOLD ~4% → 3.0x</span><span class="chip warn">GOLD+JP ~1% → 3.0x + JP 輪</span></div>
+      </div></div>
+      <div class="arr"><i class="a3">▼</i></div>
+      <div class="row"><div class="node n-server"><b>⑰ R2 補發入賬</b><small>= R1 贏額 × 檔位倍數 · 免費不扣本金</small></div></div>
+      <div class="arr"><i class="a2">▼<span class="lbl">補發推送</span></i></div>
+      <div class="row"><div class="node n-client"><b>補發展示 · 錢包更新</b><small>非 GOLD+JP 檔 → 本輪結束回 R1</small></div></div>
+    </div>
+  </div>
+
+  <!-- JP 輪 -->
+  <div class="band">
+    <div class="phase-label">JP 輪（GOLD+JP 檔限定）</div>
+    <div class="rows">
+      <div class="row"><div class="node n-server"><b>⑱ GOLD 3x 先落袋</b><small>無論 JP 結果，R2 補發保額不受影響</small></div></div>
+      <div class="arr"><i class="a1">▼</i></div>
+      <div class="row"><div class="node n-player"><b>⑲ JP 入場 · 選罐</b><small>⚠️ 有無玩家交互待定</small></div></div>
+      <div class="arr"><i class="a4">▼<span class="lbl">現場揭曉</span></i></div>
+      <div class="row"><div class="node n-stage"><b>⑳ 三罐同時揭曉 · 各自獨立</b><small class="num">單罐權重：JP50 / GOLD20 / SILVER15 / BRONZE10 / SAFE5（推論為權重%）</small></div></div>
+      <div class="arr"><i class="a3">▼</i></div>
+      <div class="row"><div class="node n-server decision"><b>㉑ 三罐全是 JP？ ◇</b>
+        <div class="chips"><span class="chip ok">是 12.5% → ㉒ JP HIT!</span><span class="chip no">否 87.5% → JACKPOT CARRIES ON · 池繼續累積</span></div>
+      </div></div>
+      <div class="arr"><i class="a3">▼</i></div>
+      <div class="row"><div class="node n-server"><b>㉒ JP HIT! 派彩</b><small>按 stake 比例瓜分獎池 → 可見池刷新 ⚠️ P300k 保底</small></div></div>
+      <div class="arr"><i class="a2">▼</i></div>
+      <div class="row"><div class="node n-client"><b>全屏中獎動畫 / CARRIES ON 提示</b><small>JP 池數字刷新</small></div></div>
+    </div>
+  </div>
+
+  <!-- 收尾 -->
+  <div class="band">
+    <div class="phase-label">收尾循環</div>
+    <div class="rows">
+      <div class="row"><div class="node n-wide"><b>▶ 本輪結束 · 自動回到 R1 下一輪循環</b>（R1 / R2 / JP 任一層結束均收斂到此出口）</div></div>
+    </div>
+  </div>
+
+</div></div>
+
+<div class="notes">
+  <div class="warnbox">⚠️ 本圖為 v5.1 流程圖轉錄 + 泳道歸位推導：節點歸屬泳道依「動作執行者」判定，屬整理推論；小字判讀不確定處（⑫ 分支條件、GOLD/GOLD+JP 機率、⑲ 選罐交互、P300k 規則）共 11 項待釐清，詳見《用戶旅程視覺稿》問題牆。賠率 / 機率 / 檔位 / 閾值全部以後端下發為準。</div>
+</div>
+
+<footer>TUMBANG PRESO EXTREME · 用戶旅程泳道圖 · v5.1 (RTP95-JP-SF) · 2026-07-30 · 畫面為需求示意，非最終美術</footer>
+
+</body>
+</html>

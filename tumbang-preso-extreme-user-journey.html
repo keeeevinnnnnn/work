@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TPE 用戶旅程視覺稿 · v5.1</title>
+<style>
+  :root{
+    --bg:#0b0f1a; --bg2:#111827; --card:#151d2e; --card2:#1a2438;
+    --gold:#f0c75e; --gold-dim:#d4af37; --line:#2a3650;
+    --txt:#e8ecf4; --txt2:#9aa7bd; --green:#4ade80; --red:#f87171;
+    --blue:#60a5fa; --purple:#c084fc; --warn:#fbbf24;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--txt);font-family:"PingFang TC","PingFang SC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.6}
+  .num{font-family:ui-monospace,Menlo,Consolas,monospace}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* hero */
+  .hero{padding:72px 0 48px;text-align:center;background:radial-gradient(ellipse 70% 60% at 50% 0%,#1a2438 0%,var(--bg) 70%)}
+  .hero h1{font-size:34px;letter-spacing:2px;color:var(--gold);margin-bottom:6px}
+  .hero .sub{color:var(--txt2);font-size:14px;margin-bottom:22px}
+  .badge{display:inline-block;padding:4px 14px;border:1px solid var(--gold-dim);border-radius:999px;color:var(--gold);font-size:13px;margin:0 4px}
+  .chain{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:14px}
+  .chain span{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 14px}
+  .chain b{color:var(--gold);align-self:center}
+
+  /* section */
+  section{padding:56px 0;border-top:1px solid #182238}
+  .sec-tag{font-size:12px;letter-spacing:3px;color:var(--gold-dim);margin-bottom:8px}
+  h2{font-size:24px;margin-bottom:6px}
+  .sec-desc{color:var(--txt2);font-size:14px;margin-bottom:28px;max-width:760px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{font-size:16px;color:var(--gold);margin-bottom:10px}
+  .card p{font-size:13px;color:var(--txt2)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{color:var(--gold-dim);text-align:left;font-weight:600}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+
+  .warn{display:flex;gap:8px;background:#241d0e;border:1px solid #4a3d1a;border-radius:10px;padding:10px 14px;font-size:13px;color:var(--warn);margin-top:14px}
+
+  /* step chain */
+  .steps{display:flex;flex-direction:column;gap:0}
+  .step{display:flex;gap:16px;align-items:flex-start}
+  .step .dot{width:34px;height:34px;border-radius:50%;background:var(--card2);border:1px solid var(--gold-dim);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .step .body{padding-bottom:26px;border-left:1px dashed var(--line);margin-left:-25px;padding-left:42px;flex:1}
+  .step:last-child .body{border-left:none;padding-bottom:0}
+  .step b{display:block;font-size:15px;margin-bottom:2px}
+  .step small{color:var(--txt2);font-size:13px}
+
+  /* device mock */
+  .mockrow{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:28px;align-items:start}
+  .device{background:#05070d;border:6px solid #232c40;border-radius:26px;padding:16px;box-shadow:0 20px 50px #0008}
+  .screen{background:linear-gradient(180deg,#0e1626,#0a1220);border-radius:14px;padding:16px;min-height:340px}
+  .scr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:11px;color:var(--txt2)}
+  .jp-pill{background:#241d0e;border:1px solid var(--gold-dim);color:var(--gold);border-radius:999px;padding:2px 10px;font-size:11px}
+  .timer{width:44px;height:44px;border-radius:50%;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;margin:0 auto 12px}
+  .numgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:12px}
+  .numgrid i{font-style:normal;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#182238;border:1px solid var(--line);border-radius:7px;font-size:11px;color:var(--txt2)}
+  .numgrid i.on{background:var(--gold);color:#0b0f1a;font-weight:700;border-color:var(--gold)}
+  .chips{display:flex;gap:5px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+  .chips i{font-style:normal;min-width:38px;text-align:center;padding:5px 4px;border-radius:999px;background:#182238;border:1px solid var(--line);font-size:10px;color:var(--txt2)}
+  .chips i.on{border-color:var(--gold);color:var(--gold)}
+  .btnrow{display:flex;gap:8px}
+  .btn{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-size:12px}
+  .btn.ghost{background:#182238;color:var(--txt2)}
+  .btn.main{background:var(--gold);color:#0b0f1a;font-weight:700}
+  .spec h3{color:var(--gold);font-size:15px;margin:0 0 10px}
+  .spec ul{list-style:none}
+  .spec li{font-size:13px;color:var(--txt2);padding:7px 0 7px 16px;border-bottom:1px dashed var(--line);position:relative}
+  .spec li::before{content:"◆";color:var(--gold-dim);position:absolute;left:0;font-size:9px;top:11px}
+  .spec li b{color:var(--txt)}
+
+  /* balls & payout */
+  .balls{display:flex;gap:10px;justify-content:center;margin:8px 0 18px}
+  .ball{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe9a8,#d4af37 60%,#8a6d1f);color:#231a05;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;box-shadow:0 6px 14px #0007}
+  .prob-bar{height:8px;border-radius:999px;background:#182238;overflow:hidden;margin-top:4px}
+  .prob-bar i{display:block;height:100%;background:var(--gold-dim)}
+
+  /* diamond decision */
+  .decide{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .diamond{width:210px;height:210px;display:flex;align-items:center;justify-content:center;position:relative;margin:10px 0}
+  .diamond::before{content:"";position:absolute;inset:22px;transform:rotate(45deg);background:var(--card2);border:1px solid var(--gold-dim);border-radius:14px}
+  .diamond span{position:relative;text-align:center;font-size:13px;max-width:150px;color:var(--gold)}
+  .branches{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%}
+  .branch{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13px}
+  .branch b{display:block;margin-bottom:4px}
+  .branch small{color:var(--txt2)}
+  .b-green{border-color:#2c4a35}.b-green b{color:var(--green)}
+  .b-blue{border-color:#2b3f5e}.b-blue b{color:var(--blue)}
+  .b-red{border-color:#4a2c2c}.b-red b{color:var(--red)}
+
+  /* tier table highlight */
+  .tier-jp td{color:var(--gold)}
+
+  /* cans */
+  .cans{display:flex;gap:18px;justify-content:center;margin:14px 0 20px}
+  .can{width:86px;height:110px;border-radius:12px 12px 8px 8px;background:linear-gradient(180deg,#3a2f14,#241d0e);border:1px solid var(--gold-dim);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  .can b{color:var(--gold);font-size:18px}
+  .can small{color:var(--txt2);font-size:10px}
+
+  /* state machine */
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .node{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:12.5px}
+  .node.gold{border-color:var(--gold-dim);color:var(--gold)}
+  .arrow{color:var(--gold-dim);font-size:15px}
+  .flow-note{margin-top:14px;font-size:13px;color:var(--txt2)}
+
+  /* diff table */
+  .diff-new{color:var(--gold)}
+
+  /* question wall */
+  .qwall{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .q{background:var(--card);border:1px solid #4a3d1a;border-left:4px solid var(--warn);border-radius:10px;padding:14px 16px;font-size:13px}
+  .q b{color:var(--warn);display:block;margin-bottom:3px;font-size:12px}
+
+  footer{padding:44px 0 60px;text-align:center;color:var(--txt2);font-size:12.5px;border-top:1px solid #182238}
+
+  /* dot nav */
+  nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:9}
+  nav a{width:10px;height:10px;border-radius:50%;background:var(--line);display:block;transition:.2s}
+  nav a:hover{background:var(--gold);transform:scale(1.3)}
+
+  @media (max-width:900px){
+    .grid2,.grid3,.qwall,.branches{grid-template-columns:1fr}
+    .mockrow{grid-template-columns:1fr}
+    nav{display:none}
+    .hero h1{font-size:24px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#s1" title="三層結構"></a><a href="#s2" title="進站"></a><a href="#s3" title="R1 下注"></a>
+  <a href="#s4" title="R1 開獎"></a><a href="#s5" title="R2 判定"></a><a href="#s6" title="R2 延續"></a>
+  <a href="#s7" title="JP 輪"></a><a href="#s8" title="狀態機"></a><a href="#s9" title="差異"></a><a href="#s10" title="問題"></a>
+</nav>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>TUMBANG PRESO EXTREME</h1>
+    <div class="sub">用戶旅程視覺稿 · 源自《TPE 用户旅程流程图》</div>
+    <span class="badge">v5.1 (RTP95-JP-SF)</span><span class="badge">2026-07-30</span><span class="badge">⚠️ 待釐清 × 11</span>
+    <div class="chain">
+      <span>充值</span><b>→</b><span>進入</span><b>→</b><span>下注</span><b>→</b><span>R1 結算</span><b>→</b><span>R2 免費延續</span><b>→</b><span>JP 三罐</span><b>→</b><span>中獎</b></span><b>↻</b>
+    </div>
+  </div>
+</div>
+
+<section id="s1"><div class="wrap">
+  <div class="sec-tag">SCREEN 01 · OVERVIEW</div>
+  <h2>玩法三層結構</h2>
+  <p class="sec-desc">單一閉環：R1 每局循環，R2 由服務器隱藏閾值觸發，JP 輪僅 R2 抽中 GOLD+JP 檔才進入。整體 RTP 定為 95%。</p>
+  <div class="grid3">
+    <div class="card"><h3>R1 主輪</h3><p>36 選 3 · 20 秒下注 · 實體輪盤開 3 球。每局循環，常駐。</p></div>
+    <div class="card"><h3>R2 免費延續輪</h3><p>不重新下注，R1 贏額 × 檔位倍數補發。隱藏流水閾值觸發，玩家不可見。</p></div>
+    <div class="card"><h3>JP 輪</h3><p>三罐獨立揭曉，全 JP（12.5%）按 stake 比例瓜分獎池，可見池 P300k 保底。</p></div>
+  </div>
+</div></section>
+
+<section id="s2"><div class="wrap">
+  <div class="sec-tag">SCREEN 02 · ONBOARDING</div>
+  <h2>進站前置流程（①〜④）</h2>
+  <p class="sec-desc">進房即需加載餘額 + JP 池金額——JP 池為常駐可見元素。</p>
+  <div class="steps">
+    <div class="step"><div class="dot">①</div><div class="body"><b>玩家充值</b><small>GCash · 銀行 → 平台錢包</small></div></div>
+    <div class="step"><div class="dot">②</div><div class="body"><b>進入平台大廳</b><small>—</small></div></div>
+    <div class="step"><div class="dot">③</div><div class="body"><b>找到 TUMBANG PRESO EXTREME 直播遊戲入口</b><small>—</small></div></div>
+    <div class="step"><div class="dot">④</div><div class="body"><b>進入房間 TP-01</b><small>加載 3D 場景 · 餘額 · JP 池</small></div></div>
+  </div>
+</div></section>
+
+<section id="s3"><div class="wrap">
+  <div class="sec-tag">SCREEN 03 · R1 BETTING</div>
+  <h2>R1 下注面板（⑤〜⑨）</h2>
+  <p class="sec-desc">20 秒倒數內選 3 個號碼（1-36），可加注至多 20 注，六檔籌碼。</p>
+  <div class="mockrow">
+    <div class="device"><div class="screen">
+      <div class="scr-top"><span>ROUND TP-01 · <span class="num">#20260730-0917</span></span><span class="jp-pill">JP ₱312,406</span></div>
+      <div class="timer num">18</div>
+      <div class="numgrid">
+        <i>1</i><i>2</i><i class="on">3</i><i>4</i><i>5</i><i>6</i>
+        <i>7</i><i class="on">8</i><i>9</i><i>10</i><i>11</i><i>12</i>
+        <i>13</i><i>14</i><i>15</i><i>16</i><i>17</i><i>18</i>
+        <i>19</i><i>20</i><i>21</i><i class="on">22</i><i>23</i><i>24</i>
+        <i>25</i><i>26</i><i>27</i><i>28</i><i>29</i><i>30</i>
+        <i>31</i><i>32</i><i>33</i><i>34</i><i>35</i><i>36</i>
+      </div>
+      <div class="chips"><i>₱5</i><i class="on">₱20</i><i>₱50</i><i>₱100</i><i>₱500</i><i>₱1000</i></div>
+      <div class="btnrow"><div class="btn ghost">Reset</div><div class="btn main">Confirm ₱20</div></div>
+    </div></div>
+    <div class="card spec">
+      <h3>SPEC 標註</h3>
+      <ul>
+        <li><b>⑤ 倒數 20 秒</b>：舊原型 15s/30s 之爭已拍板 20s</li>
+        <li><b>⑥ 選 3 個號碼</b>（1-36），<b>可加注 ≤ 20 注</b>（新增機制，計費口徑待確認）</li>
+        <li><b>⑦ 籌碼六檔</b>：P5 / 20 / 50 / 100 / 500 / 1000（新增 50 檔；自訂籌碼未見）</li>
+        <li><b>⑧ 確認分支</b>：餘額不足 → 彈充值；窗口已關 → 本輪已關自動進下一輪</li>
+        <li><b>⑨ 成功</b>：服務器 ACK · 鎖定 · 扣款</li>
+      </ul>
+      <div class="warn">⚠️ 加注 ≤20 注的結算口徑、自訂籌碼是否保留，均待企劃確認</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s4"><div class="wrap">
+  <div class="sec-tag">SCREEN 04 · R1 DRAW &amp; PAYOUT</div>
+  <h2>R1 開獎與賠付（⑩〜⑪)</h2>
+  <p class="sec-desc">下注關閉後實體輪盤開 3 球（物理搖球 · 無腳本）。黃金圈 5 球機制已從此版本消失。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>開獎演出</h3>
+      <div class="balls"><div class="ball num">03</div><div class="ball num">08</div><div class="ball num">22</div></div>
+      <p style="text-align:center">實體輪盤逐球開出 · 客戶端同步顯示已開球號</p>
+    </div>
+    <div class="card">
+      <h3>賠付表（流程圖明示值）</h3>
+      <table>
+        <tr><th>命中</th><th>機率</th><th>賠率</th><th></th></tr>
+        <tr><td>0 個</td><td class="num">76.4%</td><td style="color:var(--red)">0x 未中</td><td style="width:30%"><div class="prob-bar"><i style="width:76%"></i></div></td></tr>
+        <tr><td>1 個</td><td class="num">22.2%</td><td style="color:var(--green)">2x</td><td><div class="prob-bar"><i style="width:22%"></i></div></td></tr>
+        <tr><td>2 個</td><td class="num">1.38%</td><td style="color:var(--green)">28x</td><td><div class="prob-bar"><i style="width:2%"></i></div></td></tr>
+        <tr><td>3 個</td><td class="num">0.014%</td><td style="color:var(--gold)">780x</td><td><div class="prob-bar"><i style="width:1%"></i></div></td></tr>
+      </table>
+      <div class="warn">⚠️ 與舊原型（1.5x / 20x / 罐內倍數至 10,000x）完全不同，舊爭議不再存在</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s5"><div class="wrap">
+  <div class="sec-tag">SCREEN 05 · R2 TRIGGER</div>
+  <h2>R2 觸發判定（⑫ · 隱藏門檻）</h2>
+  <p class="sec-desc">服務器判定「局間累計有效流水是否超過隱藏閾值」——玩家完全不可見。與舊版「全服 5M 公開進度條」是本質差異。</p>
+  <div class="decide">
+    <div class="diamond"><span>局間累計有效流水<br>超過隱藏閾值？<br><small style="color:var(--txt2)">（玩家不可見）</small></span></div>
+    <div class="branches">
+      <div class="branch b-green"><b>越過 且 本輪有中獎</b><small>→ 觸發 R2 免費延續輪<br>⚠️ 小字似有「流水 ≤ 5%×?金額」附加條件</small></div>
+      <div class="branch b-blue"><b>越過 但 本輪無中獎</b><small>→ armed 狀態：等下一個合格輪，流水全額繼續累計<br>⚠️ 小字似有「×5% 賠償」字樣</small></div>
+      <div class="branch b-red"><b>未越過</b><small>→ 繼續累計，本輪結束回 R1</small></div>
+    </div>
+  </div>
+  <div class="warn">⚠️ 舊版「ROAD TO REWARD GAME」公開進度條 UI 是否作廢，必須跟企劃確認——直接影響前端是否要做進度提示元件</div>
+</div></section>
+
+<section id="s6"><div class="wrap">
+  <div class="sec-tag">SCREEN 06 · R2 FREE CONTINUATION</div>
+  <h2>R2 免費延續輪（⑬〜⑰）</h2>
+  <p class="sec-desc">不重新下注、全員共享同一檔位。結果服務器已定，主持人投罐僅是動畫演出——前端只做演出同步，無客戶端隨機。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>演出時序</h3>
+      <div class="steps">
+        <div class="step"><div class="dot">⑬</div><div class="body"><b>觸發 R2</b><small>鎖定觸發輪 winner set</small></div></div>
+        <div class="step"><div class="dot">⑭</div><div class="body"><b>播 5 秒 CAN AWAKENING</b><small>罐甦醒動畫</small></div></div>
+        <div class="step"><div class="dot">⑮</div><div class="body"><b>主持人投罐 → LED 揭牌</b><small>結果服務器已定 · 投罐僅動畫</small></div></div>
+        <div class="step"><div class="dot">⑰</div><div class="body"><b>補發入賬</b><small>= R1 贏額 × 檔位倍數 · 免費不扣本金</small></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>⑯ 共享檔位表</h3>
+      <table>
+        <tr><th>檔位</th><th>機率</th><th>倍數</th><th>效果</th></tr>
+        <tr><td>SAFE</td><td class="num">45%</td><td>1.0x</td><td>保本 · 不虧損</td></tr>
+        <tr><td>BRONZE</td><td class="num">35%</td><td>1.2x</td><td>—</td></tr>
+        <tr><td>SILVER</td><td class="num">15%</td><td>1.5x</td><td>—</td></tr>
+        <tr><td>GOLD</td><td class="num">⚠️ ~4%</td><td>3.0x</td><td>—</td></tr>
+        <tr class="tier-jp"><td>GOLD+JP</td><td class="num">⚠️ ~1%</td><td>3.0x</td><td>且解鎖 JP 輪</td></tr>
+      </table>
+      <div class="warn">⚠️ GOLD 與 GOLD+JP 百分比小字判讀不確定（五檔合計應為 100%）；R1 未中獎玩家 R2 補發為 0，winner set 範圍待確認</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s7"><div class="wrap">
+  <div class="sec-tag">SCREEN 07 · JACKPOT ROUND</div>
+  <h2>JP 輪 · 三罐獨立（⑱〜㉒）</h2>
+  <p class="sec-desc">僅 R2 抽中 GOLD+JP 檔進入。GOLD 3x 先落袋，無論 JP 結果保額不受影響。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>三罐同時揭曉 · 各自獨立</h3>
+      <div class="cans">
+        <div class="can"><b>JP</b><small>權重 50%</small></div>
+        <div class="can"><b>JP</b><small>權重 50%</small></div>
+        <div class="can"><b>JP</b><small>權重 50%</small></div>
+      </div>
+      <p style="text-align:center;font-size:13px">單罐權重：JP 50 / GOLD 20 / SILVER 15 / BRONZE 10 / SAFE 5<br><span style="color:var(--txt2)">（推論為權重%：0.5³ = 12.5% 與流程圖 HIT 機率吻合）</span></p>
+    </div>
+    <div class="card">
+      <h3>㉑ 判定結果</h3>
+      <table>
+        <tr><th>結果</th><th>機率</th><th>去向</th></tr>
+        <tr class="tier-jp"><td>三罐全 JP</td><td class="num">12.5%</td><td><b>JP HIT!</b> 按 stake 比例瓜分獎池 → 可見池刷新 P300k 保底 · 全屏動畫</td></tr>
+        <tr><td>其餘</td><td class="num">87.5%</td><td>JACKPOT CARRIES ON · 獎池繼續累積 · GOLD 3x 已落袋</td></tr>
+      </table>
+      <div class="warn">⚠️ 「選罐」有無玩家交互待定；P300k 保底與舊版 20 萬初始 + 2% 注入的關係待確認；瓜分口徑已從「均分」改為「按 stake 比例」</div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s8"><div class="wrap">
+  <div class="sec-tag">SCREEN 08 · STATE MACHINE</div>
+  <h2>客戶端狀態機（推論草案）</h2>
+  <p class="sec-desc">⚠️ 命名與數據結構為推論，最終以後端協議為準。任一 phase 斷線重連需由後端下發當前 phase + 剩餘倒數 + 已開結果，客戶端直接跳轉。</p>
+  <div class="card">
+    <div class="flow">
+      <div class="node">IDLE</div><span class="arrow">→</span>
+      <div class="node">R1_BETTING <span class="num">20s</span></div><span class="arrow">→</span>
+      <div class="node">R1_DRAWING <span class="num">3球</span></div><span class="arrow">→</span>
+      <div class="node">R1_SETTLE</div><span class="arrow">→</span>
+      <div class="node gold">R2_INTRO <span class="num">5s</span></div><span class="arrow">→</span>
+      <div class="node gold">R2_REVEAL</div><span class="arrow">→</span>
+      <div class="node gold">R2_SETTLE</div><span class="arrow">→</span>
+      <div class="node gold">JP_ROUND</div><span class="arrow">→</span>
+      <div class="node gold">JP_SETTLE</div><span class="arrow">↻</span>
+      <div class="node">IDLE</div>
+    </div>
+    <p class="flow-note">金色節點為條件分支：R1_SETTLE 未觸發 R2 → 直接回 IDLE；R2_SETTLE 非 GOLD+JP 檔 → 回 IDLE。賠率 / 機率 / 檔位 / 閾值全部走後端下發，前端不寫死。</p>
+  </div>
+</div></section>
+
+<section id="s9"><div class="wrap">
+  <div class="sec-tag">SCREEN 09 · VERSION DIFF</div>
+  <h2>與 Axure 原型（2026-05-28）差異對照 ★必讀</h2>
+  <p class="sec-desc">v5.1 是大改版：蛇行 Reward Game、Snake 旁注、黃金圈全數消失。衝突處以 v5.1 為準（建議二次確認）。</p>
+  <div class="card">
+    <table>
+      <tr><th>項目</th><th>舊原型</th><th>v5.1 流程圖</th></tr>
+      <tr><td>玩法結構</td><td>Basic + 蛇行 8×8 + Snake 旁注</td><td class="diff-new">R1 + R2 免費延續 + JP 三罐</td></tr>
+      <tr><td>投注時長</td><td>15s / 30s 矛盾</td><td class="diff-new">20s 拍板</td></tr>
+      <tr><td>開球數</td><td>3 球，黃金圈 15% → 5 球</td><td class="diff-new">固定 3 球，黃金圈消失</td></tr>
+      <tr><td>賠付</td><td>1.5x / 20x / 罐內倍數（至 10,000x）</td><td class="diff-new">2x / 28x / 780x 固定</td></tr>
+      <tr><td>加注</td><td>未提</td><td class="diff-new">≤ 20 注</td></tr>
+      <tr><td>籌碼列</td><td>5/20/100/500/1K + 自訂</td><td class="diff-new">5/20/50/100/500/1000</td></tr>
+      <tr><td>獎勵局觸發</td><td>全服 5M · 公開進度條</td><td class="diff-new">隱藏閾值 · 玩家不可見 + armed</td></tr>
+      <tr><td>獎勵局成本</td><td>需另外下注 + 限額</td><td class="diff-new">免費延續 · 不重新下注</td></tr>
+      <tr><td>JP 結構</td><td>單一池 20 萬 · 2% 注入 · 均分</td><td class="diff-new">三罐 JP · P300k 保底 · 按 stake 瓜分</td></tr>
+      <tr><td>RTP</td><td>134% 漏洞待修</td><td class="diff-new">RTP95 定案</td></tr>
+    </table>
+  </div>
+  <div class="warn">仍視為沿用：舊文件 §5 客戶端 UI 盤點（聊天室 / 歷史紀錄 / 場控端 / LED 素材）——流程圖未涉及</div>
+</div></section>
+
+<section id="s10"><div class="wrap">
+  <div class="sec-tag">SCREEN 10 · OPEN QUESTIONS</div>
+  <h2>⚠️ 開發前必須釐清（11 項）</h2>
+  <p class="sec-desc">全部收口於此，逐項跟企劃確認後開工。</p>
+  <div class="qwall">
+    <div class="q"><b>Q1 · 進度 UI</b>隱藏閾值機制下前端還要不要進度提示？舊版「ROAD TO REWARD GAME」進度條是否作廢？</div>
+    <div class="q"><b>Q2 · armed 狀態</b>越過閾值但本輪無中獎的等待態，玩家端有無可見表現？</div>
+    <div class="q"><b>Q3 · 分支小字</b>⑫ 的「流水 ≤ 5%×?金額」「×5% 賠償」準確語意？</div>
+    <div class="q"><b>Q4 · JP 交互</b>「選罐」是玩家交互還是純演出？</div>
+    <div class="q"><b>Q5 · 權重確認</b>JP50/GOLD20/SILVER15/BRONZE10/SAFE5 確認是權重%？</div>
+    <div class="q"><b>Q6 · 獎池規則</b>P300k 是保底值？每局注入規則（舊版 2%）是否沿用？</div>
+    <div class="q"><b>Q7 · winner set</b>R2 對 R1 未中獎玩家的意義？鎖定範圍確認。</div>
+    <div class="q"><b>Q8 · 加注口徑</b>≤20 注的計費與賠付：每注獨立結算？</div>
+    <div class="q"><b>Q9 · 自訂籌碼</b>v5.1 籌碼列未見編輯鈕，是否保留？</div>
+    <div class="q"><b>Q10 · 沿用範圍</b>聊天室 / 歷史紀錄 / 場控端 / LED 演出是否全部沿用？</div>
+    <div class="q"><b>Q11 · 定名</b>Tumbang Preso Extreme / Mayan Jungle Quest 仍未解決。</div>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap">TUMBANG PRESO EXTREME · 用戶旅程視覺稿 · v5.1 (RTP95-JP-SF) · 2026-07-30<br>畫面為需求示意（CSS mock），非最終美術 · 賠率/機率/檔位以後端下發為準</div>
+</footer>
+
+</body>
+</html>
