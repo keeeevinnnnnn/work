@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>科目一英文模拟考试 · Subject 1 Mock Exam</title>
+<title>Subject 1 Mock Exam (English)</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
@@ -115,17 +115,17 @@
 <!-- 首屏 -->
 <div id="viewStart" class="wrap">
   <div class="hero">
-    <h1>科目一英文模拟考试</h1>
-    <div class="sub">Subject 1 · English Mock Exam</div>
+    <h1>Subject 1 Mock Exam</h1>
+    <div class="sub">Chinese Driving Licence Theory Test · English Version</div>
     <div class="rules">
-      📋 题库共 <b>973</b> 题，每次随机抽取 <b>100</b> 题（40 判断 + 60 单选）<br>
-      ⏱️ 考试时间 <b>45 分钟</b>，到时自动交卷<br>
-      ✅ 每题 1 分，满分 100 分，<b>90 分及以上合格</b><br>
-      💾 答题进度自动保存，刷新不丢失
+      📋 <b>973</b> questions in the bank, <b>100</b> randomly drawn each time (40 True/False + 60 Multiple Choice)<br>
+      ⏱️ <b>45 minutes</b>, auto-submits when time is up<br>
+      ✅ 1 point each, 100 in total, <b>90+ to PASS</b><br>
+      💾 Progress auto-saved — refreshing won't lose your answers
     </div>
     <div class="btn-col">
-      <button class="btn-primary" id="btnStart" type="button">开始考试</button>
-      <button class="btn-ghost hidden" id="btnResume" type="button">继续上次考试</button>
+      <button class="btn-primary" id="btnStart" type="button">Start Exam</button>
+      <button class="btn-ghost hidden" id="btnResume" type="button">Resume Last Exam</button>
     </div>
   </div>
 </div>
@@ -136,18 +136,18 @@
     <div class="topbar-inner">
       <div class="timer" id="timer">45:00</div>
       <div class="bar"><div class="bar-fill" id="barFill"></div></div>
-      <div class="progress-text" id="progressText">已答 0 / 100</div>
-      <button class="btn-submit" id="btnSubmit" type="button">交卷</button>
+      <div class="progress-text" id="progressText">Answered 0 / 100</div>
+      <button class="btn-submit" id="btnSubmit" type="button">Submit</button>
     </div>
   </div>
   <div class="wrap">
     <div class="qcard" id="qcard"></div>
     <div class="navrow">
-      <button class="btn-nav" id="btnPrev" type="button">← 上一题</button>
-      <button class="btn-nav" id="btnNext" type="button">下一题 →</button>
+      <button class="btn-nav" id="btnPrev" type="button">← Previous</button>
+      <button class="btn-nav" id="btnNext" type="button">Next →</button>
     </div>
     <div class="sheet">
-      <h3>答题卡（点击跳转）</h3>
+      <h3>Answer Sheet (tap to jump)</h3>
       <div class="cells" id="cells"></div>
     </div>
   </div>
@@ -163,23 +163,23 @@
           <circle id="ringFill" cx="84" cy="84" r="74" fill="none" stroke="#16a34a" stroke-width="12"
                   stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
         </svg>
-        <div class="score-center"><div class="num" id="scoreNum">0</div><div class="unit">分 / 100</div></div>
+        <div class="score-center"><div class="num" id="scoreNum">0</div><div class="unit">/ 100</div></div>
       </div>
       <div class="verdict" id="verdict"></div>
       <div class="result-sub" id="resultSub"></div>
       <div class="stat-row">
-        <div class="stat"><div class="v g" id="statRight">0</div><div class="k">答对</div></div>
-        <div class="stat"><div class="v r" id="statWrong">0</div><div class="k">答错</div></div>
-        <div class="stat"><div class="v gr" id="statBlank">0</div><div class="k">未答</div></div>
+        <div class="stat"><div class="v g" id="statRight">0</div><div class="k">Correct</div></div>
+        <div class="stat"><div class="v r" id="statWrong">0</div><div class="k">Wrong</div></div>
+        <div class="stat"><div class="v gr" id="statBlank">0</div><div class="k">Unanswered</div></div>
       </div>
-      <button class="btn-primary" id="btnAgain" type="button">再考一次</button>
+      <button class="btn-primary" id="btnAgain" type="button">New Exam</button>
     </div>
     <div id="reviewBlock">
-      <div class="review-head">❌ 错题回顾</div>
-      <div class="review-sub">红色为你的答案，绿色为正确答案</div>
+      <div class="review-head">❌ Wrong Answers Review</div>
+      <div class="review-sub">Red = your answer · Green = correct answer</div>
       <div id="reviewList"></div>
     </div>
-    <div class="center"><button class="btn-ghost" id="btnBackTop" type="button">回到顶部</button></div>
+    <div class="center"><button class="btn-ghost" id="btnBackTop" type="button">Back to Top</button></div>
   </div>
 </div>
 
@@ -269,14 +269,14 @@ function render() {
   renderTimer();
   const q = byId[state.qids[cur]];
   const n = cur + 1;
-  const typeLabel = q.type === "tf" ? "判断题" : "单选题";
-  let html = `<div class="qmeta"><span class="qtype">${typeLabel}</span><span class="qnum">第 ${n} / 100 题</span></div>`;
+  const typeLabel = q.type === "tf" ? "True / False" : "Multiple Choice";
+  let html = `<div class="qmeta"><span class="qtype">${typeLabel}</span><span class="qnum">Question ${n} / 100</span></div>`;
   html += `<div class="qtext">${n}. ${esc(q.q)}</div>`;
   if (q.imgs) html += `<div class="qimgs">` + q.imgs.map(f => `<img src="${IMG_DIR}${f}" alt="question image" loading="lazy">`).join("") + `</div>`;
   html += `<div class="opts">`;
   const mine = state.answers[q.id];
   if (q.type === "tf") {
-    [["Right", "✔ Right（正确）"], ["Wrong", "✘ Wrong（错误）"]].forEach(([v, label]) => {
+    [["Right", "✔ Right"], ["Wrong", "✘ Wrong"]].forEach(([v, label]) => {
       html += `<button type="button" class="opt ${mine === v ? "sel" : ""}" data-v="${v}"><span class="tag">${label}</span></button>`;
     });
   } else {
@@ -307,7 +307,7 @@ function pick(v) {
 
 function updateHud() {
   const done = answeredCount();
-  $("progressText").textContent = `已答 ${done} / 100`;
+  $("progressText").textContent = `Answered ${done} / 100`;
   $("barFill").style.width = done + "%";
   const cells = $("cells").children;
   for (let i = 0; i < cells.length; i++) {
@@ -332,8 +332,8 @@ function buildCells() {
 /* ===== 交卷與成績 ===== */
 function submit(auto) {
   const blank = 100 - answeredCount();
-  if (!auto && blank > 0 && !confirm(`还有 ${blank} 题未作答，确定交卷？`)) return;
-  if (!auto && blank === 0 && !confirm("确定交卷？")) return;
+  if (!auto && blank > 0 && !confirm(`${blank} question(s) unanswered. Submit anyway?`)) return;
+  if (!auto && blank === 0 && !confirm("Submit now?")) return;
   stopTimer();
   let right = 0;
   state.qids.forEach(qid => { if (state.answers[qid] === byId[qid].answer) right++; });
@@ -356,16 +356,16 @@ function showResult() {
   const C = 465;
   ring.style.transition = "stroke-dashoffset 1s ease";
   requestAnimationFrame(() => { ring.style.strokeDashoffset = String(C * (1 - score / 100)); });
-  $("verdict").textContent = pass ? "🎉 PASS 合格" : "未通过";
+  $("verdict").textContent = pass ? "🎉 PASS" : "FAIL";
   $("verdict").className = "verdict " + (pass ? "pass" : "fail");
-  $("resultSub").textContent = pass ? "恭喜！达到 90 分合格线" : `距离 90 分合格线还差 ${PASS_SCORE - score} 分，再接再厉`;
+  $("resultSub").textContent = pass ? "Congratulations! You reached the 90-point pass line." : `${PASS_SCORE - score} more point(s) needed to reach the 90-point pass line. Keep going!`;
   $("statRight").textContent = score;
   $("statWrong").textContent = wrongIds.length - blank;
   $("statBlank").textContent = blank;
 
   const list = $("reviewList");
   if (wrongIds.length === 0) {
-    $("reviewBlock").innerHTML = `<div class="review-head">💯 全对，无错题！</div>`;
+    $("reviewBlock").innerHTML = `<div class="review-head">💯 Perfect — no wrong answers!</div>`;
     return;
   }
   list.innerHTML = "";
@@ -373,15 +373,15 @@ function showResult() {
     const q = byId[qid];
     const mine = state.answers[qid];
     const idx = state.qids.indexOf(qid) + 1;
-    let html = `<div class="qmeta"><span class="qtype">${q.type === "tf" ? "判断题" : "单选题"}</span><span class="qnum">第 ${idx} 题</span></div>`;
+    let html = `<div class="qmeta"><span class="qtype">${q.type === "tf" ? "True / False" : "Multiple Choice"}</span><span class="qnum">Question ${idx}</span></div>`;
     html += `<div class="qtext">${esc(q.q)}</div>`;
     if (q.imgs) html += `<div class="qimgs">` + q.imgs.map(f => `<img src="${IMG_DIR}${f}" alt="" loading="lazy">`).join("") + `</div>`;
-    const entries = q.type === "tf" ? [["Right", "Right（正确）"], ["Wrong", "Wrong（错误）"]] : Object.entries(q.options);
+    const entries = q.type === "tf" ? [["Right", "Right"], ["Wrong", "Wrong"]] : Object.entries(q.options);
     for (const [k, v] of entries) {
       const cls = k === q.answer ? "correct" : (k === mine ? "mine" : "");
       html += `<div class="ropt ${cls}"><span class="tag">${q.type === "tf" ? "" : k + "."}</span><span>${esc(v)}</span></div>`;
     }
-    html += `<div class="rtags"><span class="rtag g">正确答案：${q.answer}</span><span class="rtag r">你的答案：${mine || "未作答"}</span></div>`;
+    html += `<div class="rtags"><span class="rtag g">Correct: ${q.answer}</span><span class="rtag r">Yours: ${mine || "Not answered"}</span></div>`;
     const card = document.createElement("div");
     card.className = "rcard";
     card.innerHTML = html;
@@ -394,7 +394,7 @@ function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").
 /* ===== 入口 ===== */
 $("btnStart").addEventListener("click", () => {
   const saved = load();
-  if (saved && !saved.submitted && confirm("检测到未完成的考试，开始新考试将丢弃旧进度。确定重新开始？") === false) return;
+  if (saved && !saved.submitted && confirm("An unfinished exam was found. Starting a new one will discard it. Continue?") === false) return;
   startNew();
 });
 $("btnResume").addEventListener("click", () => {
@@ -414,12 +414,12 @@ $("btnBackTop").addEventListener("click", () => window.scrollTo({ top: 0, behavi
   const saved = load();
   if (saved && !saved.submitted && saved.qids && saved.remaining > 0) {
     $("btnResume").classList.remove("hidden");
-    $("btnResume").textContent = `继续上次考试（剩余 ${Math.ceil(saved.remaining / 60)} 分钟 · 已答 ${Object.keys(saved.answers).length} 题）`;
+    $("btnResume").textContent = `Resume Last Exam (${Math.ceil(saved.remaining / 60)} min left · ${Object.keys(saved.answers).length} answered)`;
   } else if (saved && saved.submitted) {
     // 已交卷的舊卷：允許直接回看成績（點擊走統一 resume 分支）
     const b = $("btnResume");
     b.classList.remove("hidden");
-    b.textContent = `查看上次成绩（${saved.score} 分）`;
+    b.textContent = `View Last Result (${saved.score} pts)`;
   }
 })();
 </script>
