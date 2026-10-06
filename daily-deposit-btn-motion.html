@@ -1,0 +1,123 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Daily deposit button motion reference (H5)</title><style>
+html{font-size:1px} body{margin:0;padding:40px;background:linear-gradient(180deg,rgb(227 240 254),#fff);font-family:-apple-system,"PingFang SC",sans-serif;display:flex;gap:48px;align-items:center}
+.z1{zoom:1} .z3{zoom:3} .z6{zoom:6}
+@charset "UTF-8";
+/**
+ * H5 响应尺寸转换函数
+ * 用途：H5将设计稿上的 px 值传入即可，自动转换为响应式尺寸
+ * 基准：390px 设计稿（如果你的设计稿是其他宽度，可传入第二个参数）
+ *
+ * 使用范例：
+ *   设计稿 299px → width: px2vw(299);
+ *   编译 → width: calc(299 / 390 * 100vw);
+ *
+ * 配合断点使用：
+ *   width: px2vw(299);
+ *   @include breakpoint(md) {
+ *     width: 299px;
+ *   }
+ */
+.dailyDepositBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rem;
+  height: 36rem;
+  padding: 14rem 6rem 4rem;
+  overflow: hidden;
+  font-family: "Inter Variable", sans-serif;
+  font-size: 12rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  background: url("data:image/webp;base64,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") center/100% 100% no-repeat;
+  border: none;
+  border-radius: 8rem;
+  animation: daily-deposit-btn-pulse 4s ease-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 1024px) {
+  .dailyDepositBtn {
+    height: 32rem;
+    background-image: url("data:image/webp;base64,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");
+  }
+}
+.dailyDepositBtn:active {
+  transform: scale(0.98);
+}
+.dailyDepositBtn .dailyDepositBtn-gift {
+  position: absolute;
+  top: 1rem;
+  left: 18rem;
+  width: 12rem;
+  height: 12rem;
+  background: url("data:image/webp;base64,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") center/100% 100% no-repeat;
+  transform-origin: 50% 70%;
+  animation: daily-deposit-gift-shake 4s ease-in-out infinite;
+}
+.dailyDepositBtn .dailyDepositBtn-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.2) 47%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.2) 53%, transparent 60%);
+  transform: translateX(-100%);
+  animation: daily-deposit-sweep-dwell 4s linear infinite;
+}
+
+@keyframes daily-deposit-sweep-dwell {
+  0% {
+    transform: translateX(-100%);
+    animation-timing-function: ease-in-out;
+  }
+  40%, 100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes daily-deposit-gift-shake {
+  0%, 17.5% {
+    transform: scale(1) rotate(0deg);
+  }
+  19.75% {
+    transform: scale(1.01) rotate(-1.6deg);
+  }
+  22% {
+    transform: scale(1.02) rotate(3.2deg);
+  }
+  24.25% {
+    transform: scale(1.03) rotate(-4.8deg);
+  }
+  26.5% {
+    transform: scale(1.04) rotate(6.4deg);
+  }
+  28.75% {
+    transform: scale(1.05) rotate(-8deg);
+  }
+  31% {
+    transform: scale(1.06) rotate(9.6deg);
+  }
+  33.25% {
+    transform: scale(1.07) rotate(-11.2deg);
+  }
+  35.5% {
+    transform: scale(1.08) rotate(12.8deg);
+  }
+  37.75% {
+    transform: scale(1.09) rotate(-14.4deg);
+  }
+  40%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+@keyframes daily-deposit-btn-pulse {
+  0%, 40% {
+    scale: 1;
+  }
+  44% {
+    scale: 1.04;
+  }
+  48.75%, 100% {
+    scale: 1;
+  }
+}
+</style></head><body><div class="z1"><button class="dailyDepositBtn" type="button"><span class="dailyDepositBtn-gift"></span>Deposit<span class="dailyDepositBtn-sweep"></span></button></div><div class="z3"><button class="dailyDepositBtn" type="button"><span class="dailyDepositBtn-gift"></span>Deposit<span class="dailyDepositBtn-sweep"></span></button></div><div class="z6"><button class="dailyDepositBtn" type="button"><span class="dailyDepositBtn-gift"></span>Deposit<span class="dailyDepositBtn-sweep"></span></button></div></body></html>
